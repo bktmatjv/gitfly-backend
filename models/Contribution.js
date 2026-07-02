@@ -1,3 +1,5 @@
+// este es el script de contributions :>
+
 const mongoose = require('mongoose');
 
 const ContributionSchema = new mongoose.Schema({
