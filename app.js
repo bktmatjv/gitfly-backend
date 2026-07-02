@@ -3,6 +3,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
 const connectDB = require('./config/db');
 
 dotenv.config();
@@ -28,7 +30,20 @@ const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(helmet());
-app.use(cors());
+
+// Rate Limiting (100 peticiones por IP cada 15 minutos)
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: 'Demasiadas peticiones desde esta IP, por favor intenta de nuevo en 15 minutos.'
+});
+app.use(limiter);
+
+// Logging de peticiones HTTP en desarrollo
+if (process.env.NODE_ENV !== 'production') {
+    app.use(morgan('dev'));
+}
+
 app.use(express.json({ limit: "100kb" }));
 // Conexión DB
 connectDB();

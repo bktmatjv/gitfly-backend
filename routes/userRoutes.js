@@ -8,6 +8,10 @@ const {
   updateUser,
   deleteUser
 } = require('../controllers/userController');
+const { protect } = require('../middlewares/authMiddleware');
+
+// Proteger todas las rutas de usuarios con JWT
+router.use(protect);
 
 router.get('/', getUsers);
 router.post('/', createUser);
