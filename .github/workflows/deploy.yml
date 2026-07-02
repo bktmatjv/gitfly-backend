@@ -18,8 +18,10 @@ jobs:
           host: ${{ secrets.AZURE_VM_HOST }}
           username: ${{ secrets.AZURE_VM_USER }}
           key: ${{ secrets.AZURE_VM_SSH_KEY }}
+          script_stop: true
           script: |
             cd ~/api-giftly
-            git pull origin main
+            git fetch origin main
+            git reset --hard origin/main
             docker-compose up -d --build
             docker image prune -f
