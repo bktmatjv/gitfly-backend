@@ -1,3 +1,4 @@
+// comentario
 const mongoose = require('mongoose');
 
 const FriendshipSchema = new mongoose.Schema({
