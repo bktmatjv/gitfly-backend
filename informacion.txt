@@ -1,0 +1,60 @@
+El proyecto se centra en el diseño, implementación y validación de una arquitectura tecnológica integral de tres capas para Giftly, una nueva red social orientada a la creación de listas de deseos (wishlists) y la planificación colaborativa de obsequios.1
+
+A continuación se detalla en qué consiste y cuáles son sus objetivos:
+
+¿De qué trata el proyecto?
+
+El proyecto es una solución tipo "Greenfield" (desarrollo desde cero), lo que significa que no se trata de una migración, sino de diseñar una arquitectura modular, escalable y eficiente desde el inicio. Los componentes clave son:1
+
+    Capa de Datos: Implementada con MongoDB (en contenedor Docker) para el almacenamiento persistente de documentos semiestructurados (JSON/BSON), metadatos, comentarios y estados de las wishlists.
+    Capa de Aplicación: Implementada como una API REST (usando Node.js y Express.js en contenedores), encargada de la lógica de negocio, validación de datos, manejo de errores y comunicación segura con la base de datos.
+    Capa de Presentación: Utilizada actualmente mediante herramientas cliente externas (como Postman) para validar el funcionamiento de los servicios antes de desarrollar la interfaz final de usuario.
+    Infraestructura: La solución se despliega en Microsoft Azure utilizando máquinas virtuales independientes para separar lógicamente la capa de datos de la de aplicación, aplicando criterios de seguridad, gestión de recursos (CPU/RAM) y redes privadas.1
+
+Objetivos del proyecto
+
+    Objetivo General: Diseñar, dimensionar, implementar y validar una arquitectura integral de tres capas que soporte una solución modular, segura y medible para la red social.1
+    Objetivos Específicos:
+        Definir los requerimientos funcionales y la volumetría del sistema (cálculo de carga, usuarios concurrentes y necesidades de hardware).1
+        Elaborar matrices técnico-económicas para justificar la elección de la pila tecnológica (hardware, SO, motor de BD y backend).1
+        Implementar las capas de datos y aplicación mediante contenedores, asegurando su despliegue y operatividad.1
+        Diseñar e implementar servicios REST para gestionar el ciclo CRUD (Create, Read, Update, Delete) de los datos.1
+        Garantizar la seguridad e integración entre capas mediante políticas de red, firewall y control de privilegios.1
+        Establecer un plan de escalabilidad para una futura versión productiva que incluya alta disponibilidad y monitoreo.1
+
+
+El proyecto Giftly es una red social interactiva diseñada para la creación y gestión colaborativa de listas de deseos (wishlists) y planificación de obsequios.Perspectiva de Negocio1
+
+El objetivo es lanzar un Producto Mínimo Viable (MVP) para una startup en un escenario "Greenfield" (desarrollo desde cero), proyectando alcanzar 100,000 usuarios registrados en sus primeros 90 días de operación regional. Los pilares estratégicos del negocio son:1
+
+    Continuidad y Mitigación de Riesgos: La arquitectura se diseña para soportar picos estacionales de alta demanda (como Navidad o San Valentín), evitando caídas del servicio mediante la separación de cargas multimedia (imágenes/videos) de las operaciones transaccionales.1
+    Eficiencia en Costos (ROI Cloud): Se busca maximizar la inversión en la nube evitando el sobredimensionamiento. Esto se logra mediante el gobierno de recursos (límites de CPU/RAM) en contenedores, permitiendo que la infraestructura crezca solo según sea necesario.1
+    Engagement y Retención: La separación de responsabilidades permite que la base de datos se enfoque en documentos JSON/BSON, metadatos y estados sociales, favoreciendo tiempos de respuesta más estables que mejoran la experiencia del usuario.1
+    Escalabilidad: El modelo de datos documental flexible permite evolucionar las funciones de la red social (comentarios, reacciones, contribuciones) sin necesidad de rediseñar esquemas rígidos.1
+
+Resumen de Implementación
+
+La arquitectura se ha implementado mediante un modelo modular de tres capas, utilizando tecnologías de contenedores para garantizar portabilidad y administración centralizada.1
+
+1. Capa de Datos (Data Tier)
+
+    Infraestructura: Desplegada en Azure (instancia Standard_D4s_v3) con Ubuntu Server 24.04 LTS.1
+    Tecnología: Docker Engine ejecutando MongoDB Community Edition (imagen mongo:7.0).1
+    Configuración: Se establecieron límites de 4 vCPU y 12 GB de RAM para el contenedor, asegurando que el host tenga recursos reservados (4 GB) para el sistema operativo. Se configuró un volumen persistente para separar el ciclo de vida del contenedor de la persistencia de datos.1
+    Validación: Se definieron colecciones clave (users, friendships, wishlists, contributions, interactions, notifications) y se ejecutaron pruebas CRUD completas.1
+
+2. Capa de Aplicación (Application Tier)
+
+    Infraestructura: VM independiente en Azure (instancia Standard_F4s_v2) con Ubuntu Server 24.04 LTS.1
+    Tecnología: Node.js (con Express.js) ejecutado en un contenedor (imagen node:22-alpine).1
+    Lógica: Actúa como intermediaria, validando solicitudes HTTP (payloads JSON), ejecutando reglas de negocio y comunicándose con la base de datos mediante variables de entorno (evitando credenciales embebidas en el código).1
+    Seguridad: Se implementó firewall (UFW), middleware Helmet para cabeceras HTTP, CORS para control de orígenes y validaciones de schema para evitar datos malformados.1
+
+3. Capa de Presentación
+
+    Estado: Actualmente implementada mediante herramientas cliente externas (como Postman) para validar el funcionamiento de los servicios REST (endpoints como POST /api/wishlists, GET /api/health, etc.).1
+
+Flujo de Integración:
+
+El flujo arquitectónico final conecta al Cliente externo → API REST (Application Tier) → MongoDB (Data Tier). Esta separación permite que la base de datos solo procese datos transaccionales, mientras que los archivos multimedia pesados son derivados a almacenamiento externo, optimizando el ancho de banda transaccional neto de la plataforma.1
+
