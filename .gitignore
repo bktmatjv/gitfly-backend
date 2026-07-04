@@ -5,6 +5,7 @@ node_modules/
 .env
 .env.*
 !.env.example
+backend/.env      # Copia local para desarrollo sin Docker
 
 # Logs
 *.log

@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middlewares/authMiddleware');
+const validateSchema = require('../middlewares/validateSchema');
+const { createWishlistSchema, updateWishlistSchema } = require('../schemas/wishlistSchema');
 
 const {
   getWishlists,
@@ -19,8 +21,8 @@ router.get('/:id', getWishlistById);
 router.use(protect);
 
 router.get('/me',  getMyWishlists);   // ← NUEVA: mis wishlists
-router.post('/',   createWishlist);
-router.put('/:id', updateWishlist);
+router.post('/', validateSchema(createWishlistSchema), createWishlist);
+router.put('/:id', validateSchema(updateWishlistSchema), updateWishlist);
 router.delete('/:id', deleteWishlist);
 
 module.exports = router;

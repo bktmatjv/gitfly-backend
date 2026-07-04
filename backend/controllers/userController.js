@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
 // Campo a excluir siempre de las respuestas
 const EXCLUDE_PASSWORD = '-cuenta.password';
@@ -26,10 +27,20 @@ exports.getUsers = async (req, res, next) => {
 // POST /api/users — solo para uso administrativo (crear usuario sin pasar por /auth/register)
 exports.createUser = async (req, res, next) => {
   try {
-    const newUser = await User.create(req.body);
+    const userData = { ...req.body };
+    
+    // Si hay una contraseña, la hasheamos antes de guardar
+    if (userData.cuenta && userData.cuenta.password) {
+      const salt = await bcrypt.genSalt(10);
+      userData.cuenta.password = await bcrypt.hash(userData.cuenta.password, salt);
+    }
+
+    const newUser = await User.create(userData);
     // Nunca devolver el hash de la contraseña
     const userObj = newUser.toObject();
-    delete userObj.cuenta.password;
+    if (userObj.cuenta) {
+      delete userObj.cuenta.password;
+    }
     res.status(201).json(userObj);
   } catch (error) {
     next(error);
