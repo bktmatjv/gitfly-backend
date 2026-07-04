@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecret_giftly_key_2026';
 
 exports.protect = (req, res, next) => {
+  // JWT_SECRET ya fue validado en app.js al arrancar
+  const JWT_SECRET = process.env.JWT_SECRET;
+
   let token;
 
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
@@ -15,7 +17,7 @@ exports.protect = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded; 
+    req.user = decoded; // { id, username, iat, exp }
     next();
   } catch (error) {
     res.status(401);

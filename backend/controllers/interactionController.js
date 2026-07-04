@@ -1,48 +1,65 @@
 const Interaction = require('../models/Interaction');
 
-exports.addComment = async (req, res) => {
+// ─── POST /api/interactions/comment ──────────────────────────────────
+// usuario_id y nombre_autor vienen del JWT (B-08)
+exports.addComment = async (req, res, next) => {
   try {
-    // Si no existe interacción para esta wishlist, la creamos
-    let interaction = await Interaction.findOne({ wishlist_id: req.body.wishlist_id });
+    const { wishlist_id, contenido_texto } = req.body;
+
+    if (!wishlist_id || !contenido_texto) {
+      res.status(400);
+      throw new Error('Se requieren wishlist_id y contenido_texto.');
+    }
+
+    let interaction = await Interaction.findOne({ usuario_id: req.user.id, wishlist_id });
     if (!interaction) {
-      interaction = await Interaction.create({ 
-        usuario_id: req.body.usuario_id, 
-        wishlist_id: req.body.wishlist_id 
+      interaction = await Interaction.create({
+        usuario_id: req.user.id,  // ← Del JWT
+        wishlist_id
       });
     }
-    
+
     interaction.comentarios.push({
-      contenido_texto: req.body.contenido_texto,
-      nombre_autor: req.body.nombre_autor || 'Usuario Invitado'
+      contenido_texto,
+      nombre_autor: req.user.username || 'Usuario'  // ← Del JWT
     });
     interaction.metricas_sociales.total_comentarios += 1;
     await interaction.save();
 
-    res.status(201).json({ message: 'Comentario agregado a la wishlist', data: interaction });
+    res.status(201).json({ message: 'Comentario agregado', data: interaction });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
 
-exports.addReaction = async (req, res) => {
+// ─── POST /api/interactions/reaction ─────────────────────────────────
+// usuario_id y nombre vienen del JWT (B-08)
+exports.addReaction = async (req, res, next) => {
   try {
-    let interaction = await Interaction.findOne({ wishlist_id: req.body.wishlist_id });
+    const { wishlist_id, tipo_reaccion } = req.body;
+
+    if (!wishlist_id || !tipo_reaccion) {
+      res.status(400);
+      throw new Error('Se requieren wishlist_id y tipo_reaccion.');
+    }
+
+    let interaction = await Interaction.findOne({ usuario_id: req.user.id, wishlist_id });
     if (!interaction) {
-      interaction = await Interaction.create({ 
-        usuario_id: req.body.usuario_id, 
-        wishlist_id: req.body.wishlist_id 
+      interaction = await Interaction.create({
+        usuario_id: req.user.id,
+        wishlist_id
       });
     }
-    
+
     interaction.reacciones.push({
-      tipo_reaccion: req.body.tipo_reaccion,
-      nombre: req.body.nombre || 'Reacción'
+      tipo_reaccion,
+      nombre: req.user.username || 'Usuario'  // ← Del JWT
     });
     interaction.metricas_sociales.total_likes += 1;
     await interaction.save();
 
     res.status(201).json({ message: 'Reacción registrada', data: interaction });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };

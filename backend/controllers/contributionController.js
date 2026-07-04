@@ -1,21 +1,35 @@
 const Contribution = require('../models/Contribution');
 
-exports.createContribution = async (req, res) => {
+// ─── POST /api/contributions ──────────────────────────────────────────
+// El usuario_id siempre viene del JWT (B-07, B-08)
+exports.createContribution = async (req, res, next) => {
   try {
-    const contribution = await Contribution.create(req.body);
-    // Nota: Aquí se debería incluir lógica transaccional para actualizar el 
-    // monto_restante en la Wishlist o emitir una notificación.
+    const { wishlist_id, monto_aportado, pasarela_pago, aporte_id, auditoria_pago, resumen_financiero } = req.body;
+
+    if (!wishlist_id || !monto_aportado) {
+      res.status(400);
+      throw new Error('Se requieren wishlist_id y monto_aportado.');
+    }
+
+    const contribution = await Contribution.create({
+      ...req.body,
+      usuario_id: req.user.id,  // ← Siempre del JWT
+    });
+
     res.status(201).json({ message: 'Aporte registrado exitosamente', data: contribution });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
 
-exports.getContributionsByWishlist = async (req, res) => {
+// ─── GET /api/contributions/wishlist/:wishlistId ──────────────────────
+exports.getContributionsByWishlist = async (req, res, next) => {
   try {
-    const contributions = await Contribution.find({ wishlist_id: req.params.wishlistId }).populate('usuario_id', 'perfil.nombres');
+    const contributions = await Contribution.find({ wishlist_id: req.params.wishlistId })
+      .populate('usuario_id', 'cuenta.username perfil.nombres perfil.apellidos');
+
     res.status(200).json({ message: 'Aportes obtenidos', data: contributions });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };

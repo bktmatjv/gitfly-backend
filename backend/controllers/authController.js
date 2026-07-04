@@ -2,7 +2,9 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecret_giftly_key_2026';
+// JWT_SECRET validado al arranque en app.js
+const JWT_SECRET = process.env.JWT_SECRET;
+
 
 exports.register = async (req, res, next) => {
   try {
