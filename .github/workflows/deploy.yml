@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      
+
       - name: Deploy to Azure via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -20,8 +20,24 @@ jobs:
           key: ${{ secrets.AZURE_VM_SSH_KEY }}
           script_stop: true
           script: |
-            cd ~/api-giftly
+            # Ajusta esta ruta al directorio donde clonaste el repo en la VM
+            cd ~/gitfly-backend
+
             git fetch origin main
             git reset --hard origin/main
+
+            # Crear directorio de datos si no existe (primer deploy)
+            mkdir -p volumes/mongodb
+
+            # Construir y levantar todos los servicios
             docker compose up -d --build
+
+            # Limpiar imágenes huérfanas para liberar espacio
             docker image prune -f
+
+            # Smoke test: verificar que la API responde
+            sleep 8
+            curl -sf http://localhost/api/health || \
+              (echo "❌ Health check falló post-deploy" && exit 1)
+
+            echo "✅ Deploy completado exitosamente."
