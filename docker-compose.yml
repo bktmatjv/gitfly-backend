@@ -4,7 +4,7 @@ services:
   # CAPA DE DATOS — MongoDB
   # ─────────────────────────────────────────────
   mongo:
-    image: mongo:7.0
+    image: mongo:8.0
     container_name: giftly-mongo
     restart: unless-stopped
     environment:

@@ -1,7 +1,7 @@
 # ─────────────────────────────────────────────
 # Stage 1: development (con nodemon)
 # ─────────────────────────────────────────────
-FROM node:20-alpine AS dev
+FROM node:24-alpine AS dev
 
 WORKDIR /app
 
@@ -16,7 +16,7 @@ CMD ["npm", "run", "dev"]
 # ─────────────────────────────────────────────
 # Stage 2: production (node puro, sin devDeps)
 # ─────────────────────────────────────────────
-FROM node:20-alpine AS prod
+FROM node:24-alpine AS prod
 
 # Crear usuario no-root por seguridad
 RUN addgroup -S giftly && adduser -S giftly -G giftly
