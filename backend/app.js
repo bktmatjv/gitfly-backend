@@ -57,6 +57,7 @@ const friendshipRoutes = require('./routes/friendshipRoutes');
 const contributionRoutes = require('./routes/contributionRoutes');
 const interactionRoutes = require('./routes/interactionRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
 
 app.use('/api/health', healtRoutes);
 app.use('/api/auth', authRoutes);
@@ -66,6 +67,7 @@ app.use('/api/friendships', friendshipRoutes);
 app.use('/api/contributions', contributionRoutes);
 app.use('/api/interactions', interactionRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/uploads', uploadRoutes);
 
 // Endpoint Raíz
 app.get('/', (req, res) => {

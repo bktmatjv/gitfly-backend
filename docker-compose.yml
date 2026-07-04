@@ -1,9 +1,128 @@
-version: '3.8'
 services:
-  api:
-    build: .
-    ports:
-      - "3000:3000"
+
+  # ─────────────────────────────────────────────
+  # CAPA DE DATOS — MongoDB
+  # ─────────────────────────────────────────────
+  mongo:
+    image: mongo:7.0
+    container_name: giftly-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongodb/init/init.js:/docker-entrypoint-initdb.d/init.js:ro
+    networks:
+      - giftly-internal
+    # MongoDB NO expone puertos al host en producción.
+    # Para conectarte desde tu máquina local durante desarrollo, descomenta:
+    # ports:
+    #   - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+
+  # ─────────────────────────────────────────────
+  # CAPA DE APLICACIÓN — Node.js / Express
+  # ─────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: prod             # Cambiar a "dev" para desarrollo con nodemon
+    container_name: giftly-backend
+    restart: unless-stopped
     env_file:
       - .env
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      # URI con autenticación MongoDB (usa hostname del contenedor)
+      MONGO_URI: mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo:27017/${MONGO_DB_NAME}?authSource=admin
+    networks:
+      - giftly-internal
+    depends_on:
+      mongo:
+        condition: service_healthy
+    # Backend NO expone puertos al host. Nginx actúa de proxy.
+    # Para desarrollo directo, descomenta:
+    # ports:
+    #   - "3000:3000"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--spider", "http://localhost:3000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+
+  # ─────────────────────────────────────────────
+  # CAPA DE PRESENTACIÓN — React (build estático)
+  # ─────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: giftly-frontend
     restart: unless-stopped
+    networks:
+      - giftly-internal
+    depends_on:
+      - backend
+
+  # ─────────────────────────────────────────────
+  # REVERSE PROXY — Nginx
+  # ─────────────────────────────────────────────
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: giftly-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"    # Preparado para SSL futuro
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./ssl:/etc/nginx/ssl:ro
+      # Copia el build del frontend (desde el contenedor frontend)
+      - frontend_build:/usr/share/nginx/html:ro
+    networks:
+      - giftly-internal
+    depends_on:
+      backend:
+        condition: service_healthy
+
+# ─────────────────────────────────────────────
+# REDES
+# ─────────────────────────────────────────────
+networks:
+  giftly-internal:
+    driver: bridge
+    name: giftly-network
+
+# ─────────────────────────────────────────────
+# VOLÚMENES
+# ─────────────────────────────────────────────
+volumes:
+  mongodb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./volumes/mongodb
+  frontend_build:
+    driver: local
