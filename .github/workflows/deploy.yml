@@ -21,7 +21,7 @@ jobs:
           script_stop: true
           script: |
             # Ajusta esta ruta al directorio donde clonaste el repo en la VM
-            cd ~/gitfly-backend
+            cd ~/gitfly
 
             git fetch origin main
             git reset --hard origin/main
