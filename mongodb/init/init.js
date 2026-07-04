@@ -21,9 +21,10 @@
 // ══════════════════════════════════════════════════════════════════════
 
 // ─── 1. Seleccionar base de datos ────────────────────────────────────
-db = db.getSiblingDB('giftly_db');
+// La base de datos ya es seleccionada automáticamente por Docker a través
+// de la variable MONGO_INITDB_DATABASE. No forzamos un nombre fijo.
 
-print('📦 [1/4] Base de datos seleccionada: giftly_db');
+print('📦 [1/4] Base de datos seleccionada (desde env).');
 
 // ─── 2. Colecciones e índices ─────────────────────────────────────────
 db.createCollection('users');
