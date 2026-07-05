@@ -83,12 +83,24 @@ exports.respondFriendship = async (req, res, next) => {
 // ─── GET /api/friendships/user/:userId ───────────────────────────────
 exports.getFriends = async (req, res, next) => {
   try {
-    const friends = await Friendship.find({
+    const friendships = await Friendship.find({
       $or: [{ solicitante_id: req.params.userId }, { receptor_id: req.params.userId }],
-      'auditoria_relacion.estado_vinculo': 'aceptado'
+      'auditoria_relacion.estado_vinculo': { $in: ['aceptado', 'pendiente'] }
     }).populate('solicitante_id receptor_id', 'cuenta.username perfil.nombres perfil.avatar_url');
 
-    res.status(200).json({ message: 'Lista de amigos', data: friends });
+    const formattedData = friendships.map(f => {
+      const isIncoming = f.receptor_id._id.toString() === req.params.userId;
+      const friendData = isIncoming ? f.solicitante_id : f.receptor_id;
+      
+      return {
+        friendshipId: f._id,
+        status: f.auditoria_relacion.estado_vinculo,
+        isIncoming,
+        friend: friendData
+      };
+    });
+
+    res.status(200).json({ message: 'Lista de amigos', data: formattedData });
   } catch (error) {
     next(error);
   }

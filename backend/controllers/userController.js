@@ -9,14 +9,26 @@ exports.getUsers = async (req, res, next) => {
     const page  = parseInt(req.query.page,  10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
     const skip  = (page - 1) * limit;
+    const search = req.query.search;
 
-    const users = await User.find()
+    let filter = {};
+    if (search) {
+      filter = {
+        $or: [
+          { 'cuenta.username': { $regex: search, $options: 'i' } },
+          { 'perfil.nombres': { $regex: search, $options: 'i' } },
+          { 'perfil.apellidos': { $regex: search, $options: 'i' } }
+        ]
+      };
+    }
+
+    const users = await User.find(filter)
       .select(EXCLUDE_PASSWORD)
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 });
 
-    const total = await User.countDocuments();
+    const total = await User.countDocuments(filter);
 
     res.status(200).json({ total, page, totalPages: Math.ceil(total / limit), data: users });
   } catch (error) {

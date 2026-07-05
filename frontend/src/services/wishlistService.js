@@ -31,3 +31,14 @@ export const createWishlist = async (data) => {
   const response = await apiClient.post('/wishlists', data);
   return response.data;
 };
+
+export const updateWishlist = async (id, data) => {
+  const response = await apiClient.put(`/wishlists/${id}`, data);
+  return response.data;
+};
+
+export const deleteWishlist = async (id) => {
+  const response = await apiClient.delete(`/wishlists/${id}`);
+  return response.data;
+};
+

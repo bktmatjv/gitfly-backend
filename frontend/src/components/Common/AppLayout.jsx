@@ -37,7 +37,7 @@ const AppLayout = ({ children }) => {
             </div>
             <div className="user-info">
               <span className="user-name">{user?.perfil?.nombres || 'Usuario'}</span>
-              <span className="user-handle">@{user?.username || 'user'}</span>
+              <span className="user-handle">@{user?.cuenta?.username || 'user'}</span>
             </div>
           </div>
           <button onClick={logout} className="logout-btn uppercase">Cerrar Sesión</button>

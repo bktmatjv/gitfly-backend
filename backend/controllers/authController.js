@@ -28,7 +28,15 @@ exports.register = async (req, res, next) => {
       perfil
     });
 
-    res.status(201).json({ message: 'Usuario registrado exitosamente', userId: newUser._id });
+    res.status(201).json({ 
+      message: 'Usuario registrado exitosamente', 
+      userId: newUser._id,
+      user: {
+        id: newUser._id,
+        cuenta: newUser.cuenta,
+        perfil: newUser.perfil
+      }
+    });
   } catch (error) {
     next(error);
   }
@@ -56,7 +64,32 @@ exports.login = async (req, res, next) => {
       { expiresIn: '1d' }
     );
 
-    res.status(200).json({ token, message: 'Login exitoso' });
+    res.status(200).json({ 
+      token, 
+      message: 'Login exitoso',
+      user: {
+        id: user._id,
+        cuenta: user.cuenta,
+        perfil: user.perfil
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getMe = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).select('-cuenta.password');
+    if (!user) {
+      res.status(404);
+      throw new Error('Usuario no encontrado');
+    }
+    res.status(200).json({
+      id: user._id,
+      cuenta: user.cuenta,
+      perfil: user.perfil
+    });
   } catch (error) {
     next(error);
   }

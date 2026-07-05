@@ -32,7 +32,7 @@ const Navbar = () => {
           <>
             <Link to="/dashboard" style={styles.navLink}>Dashboard</Link>
             <Link to="/my-wishlists" style={styles.navLink}>Mis Listas</Link>
-            <span style={{ color: 'var(--text-muted)', margin: '0 1rem' }}>Hola, {user?.nombre?.split(' ')[0]}</span>
+            <span style={{ color: 'var(--text-muted)', margin: '0 1rem' }}>Hola, {user?.perfil?.nombres?.split(' ')[0] || user?.cuenta?.username || 'Usuario'}</span>
             <button onClick={handleLogout} className="btn btn-pill outline-plum text-white" style={{ padding: '0.8rem 1.5rem', fontSize: '0.9rem', borderColor: 'white' }}>
               SALIR
             </button>

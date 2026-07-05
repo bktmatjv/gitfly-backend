@@ -2,6 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Landing from './pages/Landing';
+import Auth from './pages/Auth';
+import Dashboard from './pages/Dashboard';
+import WishlistDetail from './pages/WishlistDetail';
+import Friends from './pages/Friends';
+import MyWishlists from './pages/MyWishlists';
 
 /* 
  * =========================================================================
@@ -91,7 +96,7 @@ function App() {
           <Route path="/wishlists/:id" element={<ProtectedRoute><WishlistDetail /></ProtectedRoute>} />
           <Route path="/friends" element={<ProtectedRoute><Friends /></ProtectedRoute>} />
           <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
-          {/* <Route path="/my-wishlists" element={<ProtectedRoute><MyWishlists /></ProtectedRoute>} /> */}
+          <Route path="/my-wishlists" element={<ProtectedRoute><MyWishlists /></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
