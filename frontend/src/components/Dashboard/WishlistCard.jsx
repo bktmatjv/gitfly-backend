@@ -81,9 +81,13 @@ const WishlistCard = ({ wishlist, onEdit, onRefresh }) => {
         )}
       </div>
       
-      {/* Post Image */}
+      {/* Post Image/Video */}
       <div className="post-image-container">
-        <img src={imageUrl} alt={giftName} className="post-image" />
+        {imageUrl.match(/\.(mp4|webm|ogg)$/i) ? (
+          <video src={imageUrl} className="post-image" autoPlay muted loop playsInline />
+        ) : (
+          <img src={imageUrl} alt={giftName} className="post-image" />
+        )}
         <div className="post-price-tag">
           {price} {currency}
         </div>
