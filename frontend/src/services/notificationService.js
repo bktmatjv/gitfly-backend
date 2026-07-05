@@ -2,7 +2,7 @@ import apiClient from './apiClient';
 
 export const getUserNotifications = async () => {
   const response = await apiClient.get('/notifications');
-  return response.data;
+  return response.data.data || [];
 };
 
 export const markAsRead = async (id) => {

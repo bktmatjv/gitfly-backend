@@ -7,5 +7,5 @@ export const createContribution = async (data) => {
 
 export const getContributionsByWishlist = async (wishlistId) => {
   const response = await apiClient.get(`/contributions/wishlist/${wishlistId}`);
-  return response.data;
+  return response.data.data || [];
 };
