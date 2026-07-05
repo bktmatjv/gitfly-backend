@@ -65,17 +65,17 @@ const MyWishlists = () => {
       <div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <button 
           onClick={() => setActiveTab('publicaciones')}
-          style={{ background: 'none', border: 'none', padding: '1rem 0', color: activeTab === 'publicaciones' ? '#fff' : '#888', borderBottom: activeTab === 'publicaciones' ? '2px solid #0051ff' : 'none', cursor: 'pointer', fontWeight: 'bold' }}>
+          style={{ background: 'none', border: 'none', padding: '1rem 0', color: activeTab === 'publicaciones' ? '#0051ff' : '#888', borderBottom: activeTab === 'publicaciones' ? '2px solid #0051ff' : 'none', cursor: 'pointer', fontWeight: 'bold' }}>
           MIS PUBLICACIONES
         </button>
         <button 
           onClick={() => setActiveTab('datos')}
-          style={{ background: 'none', border: 'none', padding: '1rem 0', color: activeTab === 'datos' ? '#fff' : '#888', borderBottom: activeTab === 'datos' ? '2px solid #0051ff' : 'none', cursor: 'pointer', fontWeight: 'bold' }}>
+          style={{ background: 'none', border: 'none', padding: '1rem 0', color: activeTab === 'datos' ? '#0051ff' : '#888', borderBottom: activeTab === 'datos' ? '2px solid #0051ff' : 'none', cursor: 'pointer', fontWeight: 'bold' }}>
           MIS DATOS
         </button>
         <button 
           onClick={() => setActiveTab('ajustes')}
-          style={{ background: 'none', border: 'none', padding: '1rem 0', color: activeTab === 'ajustes' ? '#fff' : '#888', borderBottom: activeTab === 'ajustes' ? '2px solid #0051ff' : 'none', cursor: 'pointer', fontWeight: 'bold' }}>
+          style={{ background: 'none', border: 'none', padding: '1rem 0', color: activeTab === 'ajustes' ? '#0051ff' : '#888', borderBottom: activeTab === 'ajustes' ? '2px solid #0051ff' : 'none', cursor: 'pointer', fontWeight: 'bold' }}>
           AJUSTES
         </button>
       </div>
