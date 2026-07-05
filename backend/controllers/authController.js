@@ -28,8 +28,15 @@ exports.register = async (req, res, next) => {
       perfil
     });
 
+    const token = jwt.sign(
+      { id: newUser._id, username: newUser.cuenta.username },
+      JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
     res.status(201).json({ 
       message: 'Usuario registrado exitosamente', 
+      token,
       userId: newUser._id,
       user: {
         id: newUser._id,
