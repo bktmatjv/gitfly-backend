@@ -12,7 +12,7 @@ const AppLayout = ({ children }) => {
       {/* Sidebar */}
       <aside className="sidebar">
         <div className="sidebar-header">
-          <Link to="/" className="sidebar-logo uppercase">GIFTLY</Link>
+          <Link to="/dashboard" className="sidebar-logo uppercase">GIFTLY</Link>
         </div>
         
         <nav className="sidebar-nav">
@@ -28,10 +28,14 @@ const AppLayout = ({ children }) => {
             <span className="sidebar-icon">🔔</span>
             <span className="sidebar-label uppercase">ALERTAS</span>
           </Link>
+          <Link to="/my-wishlists" className={`sidebar-link ${location.pathname === '/my-wishlists' ? 'active' : ''}`}>
+            <span className="sidebar-icon">👤</span>
+            <span className="sidebar-label uppercase">MI PERFIL</span>
+          </Link>
         </nav>
 
         <div className="sidebar-footer">
-          <div className="user-profile-mini">
+          <Link to="/my-wishlists" className="user-profile-mini" style={{textDecoration: 'none', color: 'inherit'}}>
             <div className="avatar">
               {user?.perfil?.nombres ? user.perfil.nombres.charAt(0).toUpperCase() : 'U'}
             </div>
@@ -39,7 +43,7 @@ const AppLayout = ({ children }) => {
               <span className="user-name">{user?.perfil?.nombres || 'Usuario'}</span>
               <span className="user-handle">@{user?.cuenta?.username || 'user'}</span>
             </div>
-          </div>
+          </Link>
           <button onClick={logout} className="logout-btn uppercase">Cerrar Sesión</button>
         </div>
       </aside>

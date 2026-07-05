@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './WishlistFormModal.css';
 import { createWishlist, updateWishlist } from '../../services/wishlistService';
+import { uploadMediaFile } from '../../services/uploadService';
 
 const WishlistFormModal = ({ isOpen, onClose, onSuccess, initialData = null }) => {
   const isEditing = !!initialData;
@@ -17,6 +18,7 @@ const WishlistFormModal = ({ isOpen, onClose, onSuccess, initialData = null }) =
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     if (initialData) {
@@ -43,6 +45,12 @@ const WishlistFormModal = ({ isOpen, onClose, onSuccess, initialData = null }) =
   }, [initialData, isOpen]);
 
   if (!isOpen) return null;
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -71,6 +79,11 @@ const WishlistFormModal = ({ isOpen, onClose, onSuccess, initialData = null }) =
     };
 
     try {
+      if (selectedFile) {
+        const uploadedUrl = await uploadMediaFile(selectedFile);
+        payload.recursos_multimedia.imagen_url = uploadedUrl;
+      }
+
       if (isEditing) {
         await updateWishlist(initialData._id, payload);
       } else {
@@ -78,8 +91,9 @@ const WishlistFormModal = ({ isOpen, onClose, onSuccess, initialData = null }) =
       }
       onSuccess();
       onClose();
+      setSelectedFile(null);
     } catch (err) {
-      setError(err.response?.data?.message || 'Error al guardar la wishlist');
+      setError(err.response?.data?.message || err.message || 'Error al guardar la wishlist');
     } finally {
       setLoading(false);
     }
@@ -137,8 +151,18 @@ const WishlistFormModal = ({ isOpen, onClose, onSuccess, initialData = null }) =
                 <input type="number" name="precio_estimado" value={formData.precio_estimado} onChange={handleChange} required min="1" step="0.5" />
               </div>
               <div className="form-group">
-                <label>URL de Imagen</label>
-                <input type="url" name="imagen_url" value={formData.imagen_url} onChange={handleChange} placeholder="https://..." />
+                <label>Subir Imagen o Video Corto</label>
+                <input 
+                  type="file" 
+                  name="media" 
+                  accept="image/*,video/*" 
+                  onChange={handleFileChange} 
+                />
+                {formData.imagen_url && !selectedFile && (
+                  <small style={{display: 'block', marginTop: '4px', color: '#888'}}>
+                    Ya hay un archivo subido. Sube uno nuevo para reemplazarlo.
+                  </small>
+                )}
               </div>
             </div>
           </div>
