@@ -9,7 +9,7 @@ const AppLayout = ({ children }) => {
 
   return (
     <div className="app-layout">
-      {/* Sidebar */}
+      {/* Sidebar (Desktop) */}
       <aside className="sidebar">
         <div className="sidebar-header">
           <Link to="/dashboard" className="sidebar-logo uppercase">GIFTLY</Link>
@@ -44,7 +44,7 @@ const AppLayout = ({ children }) => {
               <span className="user-handle">@{user?.cuenta?.username || 'user'}</span>
             </div>
           </Link>
-          <button onClick={logout} className="logout-btn uppercase">Cerrar Sesión</button>
+          <button onClick={() => { if(window.confirm('¿Seguro que deseas cerrar sesión?')) logout(); }} className="logout-btn uppercase">Cerrar Sesión</button>
         </div>
       </aside>
 
@@ -54,8 +54,28 @@ const AppLayout = ({ children }) => {
           {children}
         </div>
       </main>
+
+      {/* Bottom Navigation (Mobile) */}
+      <nav className="bottom-nav">
+        <Link to="/dashboard" className={`bottom-nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}>
+          <span className="bottom-nav-icon">🌍</span>
+        </Link>
+        <Link to="/friends" className={`bottom-nav-link ${location.pathname === '/friends' ? 'active' : ''}`}>
+          <span className="bottom-nav-icon">👥</span>
+        </Link>
+        <Link to="/notifications" className={`bottom-nav-link ${location.pathname === '/notifications' ? 'active' : ''}`}>
+          <span className="bottom-nav-icon">🔔</span>
+        </Link>
+        <Link to="/my-wishlists" className={`bottom-nav-link ${location.pathname === '/my-wishlists' ? 'active' : ''}`}>
+          <span className="bottom-nav-icon">👤</span>
+        </Link>
+        <button className="bottom-nav-link logout-nav-btn" onClick={() => { if(window.confirm('¿Seguro que deseas cerrar sesión?')) logout(); }}>
+          <span className="bottom-nav-icon">🚪</span>
+        </button>
+      </nav>
     </div>
   );
 };
+
 
 export default AppLayout;

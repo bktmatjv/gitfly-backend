@@ -113,27 +113,34 @@ const Friends = () => {
               </button>
             </form>
             
-            {searchResults.length > 0 && (
-              <div className="friends-grid search-results-grid">
-                {searchResults.map(u => (
-                  <div key={u._id} className="friend-card">
-                    <div className="f-avatar">
-                      {u.perfil?.avatar_url ? (
-                        <img src={u.perfil.avatar_url} alt={u.perfil.nombres} />
-                      ) : (
-                        <span>{u.perfil?.nombres?.charAt(0) || 'U'}</span>
-                      )}
+            {searchResults !== null && (
+              searchResults.length > 0 ? (
+                <div className="friends-grid search-results-grid">
+                  {searchResults.map(u => (
+                    <div key={u._id} className="friend-card">
+                      <div className="f-avatar">
+                        {u.perfil?.avatar_url ? (
+                          <img src={u.perfil.avatar_url} alt={u.perfil.nombres} />
+                        ) : (
+                          <span>{u.perfil?.nombres?.charAt(0) || 'U'}</span>
+                        )}
+                      </div>
+                      <div className="f-info">
+                        <h3>{u.perfil?.nombres} {u.perfil?.apellidos}</h3>
+                        <p>@{u.cuenta?.username}</p>
+                      </div>
+                      <div className="f-actions">
+                        <button className="add-friend-btn" onClick={() => handleAddFriend(u._id)}>+ Agregar</button>
+                      </div>
                     </div>
-                    <div className="f-info">
-                      <h3>{u.perfil?.nombres} {u.perfil?.apellidos}</h3>
-                      <p>@{u.cuenta?.username}</p>
-                    </div>
-                    <div className="f-actions">
-                      <button className="add-friend-btn" onClick={() => handleAddFriend(u._id)}>+ Agregar</button>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="empty-state">
+                  <span style={{ fontSize: '3rem', marginBottom: '1rem', display: 'block' }}>🔍</span>
+                  <p>No encontramos usuarios con ese nombre.</p>
+                </div>
+              )
             )}
           </div>
           
@@ -170,6 +177,7 @@ const Friends = () => {
             <h2>Mi Círculo ({friends.length})</h2>
             {friends.length === 0 ? (
               <div className="empty-state">
+                <span style={{ fontSize: '3rem', marginBottom: '1rem', display: 'block' }}>🤷‍♂️</span>
                 <p>Aún no tienes amigos registrados. ¡Busca usuarios y envíales una solicitud!</p>
               </div>
             ) : (
