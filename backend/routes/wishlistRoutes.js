@@ -13,14 +13,15 @@ const {
   deleteWishlist
 } = require('../controllers/wishlistController');
 
+// Rutas protegidas con JWT que deben ir ANTES de las rutas con parámetros dinámicos
+router.get('/me', protect, getMyWishlists);   // ← NUEVA: mis wishlists
+
 // Rutas públicas (lectura)
 router.get('/',    getWishlists);
 router.get('/:id', getWishlistById);
 
-// Rutas protegidas con JWT
+// Middleware global para las siguientes rutas protegidas
 router.use(protect);
-
-router.get('/me',  getMyWishlists);   // ← NUEVA: mis wishlists
 router.post('/', validateSchema(createWishlistSchema), createWishlist);
 router.put('/:id', validateSchema(updateWishlistSchema), updateWishlist);
 router.delete('/:id', deleteWishlist);

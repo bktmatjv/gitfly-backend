@@ -86,7 +86,12 @@ const WishlistCard = ({ wishlist, onEdit, onRefresh }) => {
         {imageUrl.match(/\.(mp4|webm|ogg)$/i) ? (
           <video src={imageUrl} className="post-image" autoPlay muted loop playsInline />
         ) : (
-          <img src={imageUrl} alt={giftName} className="post-image" />
+          <img 
+            src={imageUrl} 
+            alt={giftName} 
+            className="post-image" 
+            onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=600'; }} 
+          />
         )}
         <div className="post-price-tag">
           {price} {currency}
