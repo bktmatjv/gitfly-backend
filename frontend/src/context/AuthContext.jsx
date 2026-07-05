@@ -42,8 +42,17 @@ export const AuthProvider = ({ children }) => {
     return res.data;
   };
 
-  const register = async (nombre, email, password) => {
-    const res = await apiClient.post('/auth/register', { nombre, email, password });
+  const register = async (userData) => {
+    const { username, email, password, nombres, apellidos, edad } = userData;
+    const payload = {
+      cuenta: { email, password, username },
+      perfil: { 
+        nombres: nombres || username,
+        apellidos: apellidos || '',
+        edad: edad
+      }
+    };
+    const res = await apiClient.post('/auth/register', payload);
     const { token, user } = res.data;
     localStorage.setItem('giftly_token', token);
     setUser(user);

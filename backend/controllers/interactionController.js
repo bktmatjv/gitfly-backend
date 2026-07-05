@@ -63,3 +63,15 @@ exports.addReaction = async (req, res, next) => {
     next(error);
   }
 };
+
+// ─── GET /api/interactions/wishlist/:wishlistId ────────────────────────
+exports.getInteractionsByWishlist = async (req, res, next) => {
+  try {
+    const { wishlistId } = req.params;
+    const interactions = await Interaction.find({ wishlist_id: wishlistId })
+      .populate('usuario_id', 'cuenta.username perfil.nombres perfil.avatar_url');
+    res.status(200).json(interactions);
+  } catch (error) {
+    next(error);
+  }
+};

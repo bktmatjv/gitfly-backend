@@ -93,7 +93,6 @@ const HASH_ADMIN = "$2b$10$xB5Svu8Krg3Toas3UJQ/OOEyWt4hiBwLKarIaJPhNOnKwlzHkRtJm
 db.users.insertMany([
     // ── Usuario 1: Francesco (dueño principal de wishlists) ──────────────
     {
-        codigo_alumno: "U202414738",
         cuenta: {
             username: "francesco_meza",
             email: "francesco.meza@upc.pe",
@@ -104,6 +103,7 @@ db.users.insertMany([
             nombres: "Francesco",
             apellidos: "Meza Dagnino",
             biografia: "Compartiendo mis tableros de deseos. 🎁",
+            edad: 21,
             avatar_url: "https://giftlystorage.blob.core.windows.net/media/avatars/francesco.png",
             seed_tag: SEED
         },
@@ -117,7 +117,6 @@ db.users.insertMany([
 
     // ── Usuario 2: Matías (amigo y colaborador) ───────────────────────────
     {
-        codigo_alumno: "U202310045",
         cuenta: {
             username: "matias_castillo",
             email: "matias.castillo@upc.pe",
@@ -128,6 +127,7 @@ db.users.insertMany([
             nombres: "Matías",
             apellidos: "Del Castillo Ríos",
             biografia: "Organizando regalos grupales con estilo. 🎉",
+            edad: 22,
             avatar_url: "https://giftlystorage.blob.core.windows.net/media/avatars/matias.png",
             seed_tag: SEED
         },

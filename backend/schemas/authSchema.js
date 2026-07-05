@@ -1,7 +1,6 @@
 const { z } = require('zod');
 
 const registerSchema = z.object({
-  codigo_alumno: z.string().optional(),
   cuenta: z.object({
     email: z.string().email('Debe ser un correo válido'),
     password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
@@ -11,6 +10,7 @@ const registerSchema = z.object({
     nombres: z.string().optional(),
     apellidos: z.string().optional(),
     biografia: z.string().optional(),
+    edad: z.number().optional(),
     avatar_url: z.string().url('Debe ser una URL válida').optional()
   }).optional()
 });
