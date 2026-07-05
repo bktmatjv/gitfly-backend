@@ -1,29 +1,28 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import AppLayout from '../components/Common/AppLayout';
 import { useAuth } from '../context/AuthContext';
-import { getWishlists } from '../services/wishlistService';
+import { getMyWishlists } from '../services/wishlistService';
 import WishlistCard from '../components/Dashboard/WishlistCard';
 import WishlistFormModal from '../components/Dashboard/WishlistFormModal';
-import './Dashboard.css';
+import './Dashboard.css'; // Reusing dashboard styles
 
-const Dashboard = () => {
+const MyWishlists = () => {
   const { user } = useAuth();
   const [wishlists, setWishlists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
-  // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editData, setEditData] = useState(null);
 
   const fetchFeed = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await getWishlists(1, 20);
+      const response = await getMyWishlists(1, 20);
       setWishlists(response.data);
     } catch (err) {
-      setError('No pudimos cargar el feed. Intenta recargar la página.');
-      console.error("Error fetching wishlists:", err);
+      setError('No pudimos cargar tus listas.');
+      console.error("Error fetching my wishlists:", err);
     } finally {
       setLoading(false);
     }
@@ -52,9 +51,9 @@ const Dashboard = () => {
       <div className="dashboard-header">
         <div>
           <h1 className="dashboard-greeting uppercase">
-            HOLA, {user?.perfil?.nombres?.split(' ')[0] || 'AMIGO'}.
+            MI PERFIL
           </h1>
-          <p className="dashboard-subtitle">Explora los deseos más recientes de la comunidad.</p>
+          <p className="dashboard-subtitle">Gestiona tus listas de deseos.</p>
         </div>
         <button onClick={openCreateModal} className="create-btn uppercase">
           + Nuevo Deseo
@@ -70,7 +69,7 @@ const Dashboard = () => {
       {loading ? (
         <div className="feed-loading">
           <div className="loader-spinner"></div>
-          <p>Cargando listas recientes...</p>
+          <p>Cargando tus listas...</p>
         </div>
       ) : wishlists.length > 0 ? (
         <div className="feed-vertical">
@@ -85,8 +84,8 @@ const Dashboard = () => {
         </div>
       ) : (
         <div className="feed-empty">
-          <h2>El Feed está vacío</h2>
-          <p>Aún no hay listas de deseos públicas. ¡Sé el primero en crear una y compártela con tus amigos!</p>
+          <h2>No tienes listas aún</h2>
+          <p>¡Crea tu primera lista de deseos para que tus amigos sepan qué regalarte!</p>
         </div>
       )}
       
@@ -100,4 +99,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default MyWishlists;

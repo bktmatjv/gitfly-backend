@@ -1,145 +1,222 @@
-/* ==========================================================================
-   WISHLIST CARD COMPONENT
-   ========================================================================== */
-
-.wishlist-card {
+.wishlist-post {
   background: white;
-  border-radius: 20px;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid #E2E5E0;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  width: 100%;
+  border: 1px solid #eee;
+  transition: transform 0.3s ease;
 }
 
-.wishlist-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(0, 67, 214, 0.1);
-  border-color: #99B9FF;
+.wishlist-post:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
-/* HEADER */
-.wishlist-card-header {
+.post-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #f5f5f5;
 }
 
-.wishlist-badge {
-  background-color: #F0F4FF;
-  color: var(--bg-primary);
-  font-family: var(--font-heading);
-  font-size: 0.8rem;
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
-  letter-spacing: 1px;
-}
-
-.wishlist-date {
-  font-size: 0.85rem;
-  color: #888;
-  font-weight: 500;
-}
-
-/* BODY */
-.wishlist-card-body {
-  flex: 1;
+.post-creator-info {
   display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-.wishlist-title {
-  font-family: var(--font-heading);
-  font-size: 1.6rem;
-  line-height: 1.1;
-  color: #1A1A1A;
-  margin: 0;
-}
-
-.wishlist-desc {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  color: #666;
-  margin: 0;
-  line-height: 1.5;
-  flex: 1;
-}
-
-.wishlist-stats {
-  margin-top: 0.5rem;
-  display: flex;
+  align-items: center;
   gap: 1rem;
 }
 
-.stat {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  background-color: #F8F9FA;
-  padding: 0.4rem 0.8rem;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  color: #444;
-  font-weight: 600;
-}
-
-/* FOOTER */
-.wishlist-card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 1.2rem;
-  border-top: 1px solid #F0F0F0;
-  margin-top: auto;
-}
-
-.creator-info {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.creator-avatar {
-  width: 36px;
-  height: 36px;
+.post-avatar {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.creator-avatar-placeholder {
-  width: 36px;
-  height: 36px;
+.post-avatar-placeholder {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: var(--bg-primary);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-heading);
-  font-size: 1.2rem;
+  font-weight: bold;
 }
 
-.creator-name {
-  font-size: 0.9rem;
+.post-creator-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-creator-name {
   font-weight: 600;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+}
+
+.post-date {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.post-options-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #888;
+  cursor: pointer;
+  padding: 0 0.5rem;
+}
+
+.post-options-btn:hover {
   color: #333;
 }
 
-.view-list-btn {
-  background-color: var(--bg-primary);
-  color: white;
-  text-decoration: none;
-  font-family: var(--font-heading);
-  font-size: 0.9rem;
-  padding: 0.6rem 1.2rem;
-  border-radius: 12px;
-  letter-spacing: 1px;
-  transition: background-color 0.3s ease;
+.post-image-container {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #f8f9fa;
+  position: relative;
+  overflow: hidden;
 }
 
-.view-list-btn:hover {
-  background-color: #0043D6;
+.post-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-price-tag {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  backdrop-filter: blur(4px);
+}
+
+.post-body {
+  padding: 1.5rem;
+}
+
+.post-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+  color: #1a1a1a;
+}
+
+.post-gift {
+  font-weight: 500;
+  color: var(--bg-primary);
+  margin: 0 0 1rem 0;
+}
+
+.post-desc {
+  color: #444;
+  line-height: 1.5;
+  margin: 0 0 1.5rem 0;
+}
+
+.post-progress {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--bg-primary);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.post-footer {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.post-action-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  background-color: #1a1a1a;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.post-action-btn:hover {
+  background-color: var(--bg-primary);
+}
+
+.post-options-container {
+  position: relative;
+}
+
+.post-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+  border: 1px solid #eee;
+  padding: 0.5rem 0;
+  min-width: 150px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-dropdown-menu button {
+  background: none;
+  border: none;
+  padding: 0.8rem 1rem;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #333;
+}
+
+.post-dropdown-menu button:hover {
+  background-color: #f5f5f5;
+}
+
+.post-dropdown-menu button.delete-text {
+  color: #dc2626;
+}
+
+.post-dropdown-menu button.delete-text:hover {
+  background-color: #fee2e2;
 }
