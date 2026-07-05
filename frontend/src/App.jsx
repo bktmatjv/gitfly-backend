@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Landing from './pages/Landing';
-import Auth from './pages/Auth';
+import Notifications from './pages/Notifications';
 import Dashboard from './pages/Dashboard';
 import WishlistDetail from './pages/WishlistDetail';
 import Friends from './pages/Friends';
