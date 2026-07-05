@@ -57,6 +57,7 @@ const Notifications = () => {
         <div className="notifs-content">
           {notifications.length === 0 ? (
             <div className="empty-state">
+              <span style={{ fontSize: '3rem', marginBottom: '1rem', display: 'block' }}>📭</span>
               <p>No tienes notificaciones en este momento.</p>
             </div>
           ) : (
