@@ -1,0 +1,175 @@
+/* ==========================================================================
+   APP LAYOUT (Sidebar + Main Content)
+   ========================================================================== */
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg-light); /* Off-white background for the dashboard */
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 280px;
+  background-color: var(--bg-primary); /* Electric Blue */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+
+.sidebar-header {
+  padding: 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-logo {
+  color: white;
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  letter-spacing: -1px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.sidebar-link:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-link.active {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-left-color: #FFD700; /* Gold accent for active state */
+}
+
+.sidebar-icon {
+  font-size: 1.2rem;
+}
+
+.sidebar-label {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+/* SIDEBAR FOOTER */
+.sidebar-footer {
+  padding: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.user-profile-mini {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  color: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: white;
+}
+
+.user-handle {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.6);
+}
+
+.logout-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-family: var(--font-heading);
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: white;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  flex: 1;
+  margin-left: 280px; /* Offset for the fixed sidebar */
+  min-height: 100vh;
+}
+
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 80px;
+  }
+  .sidebar-logo {
+    font-size: 1.5rem;
+  }
+  .sidebar-label, .user-info, .logout-btn {
+    display: none;
+  }
+  .sidebar-link {
+    padding: 1rem;
+    justify-content: center;
+  }
+  .sidebar-icon {
+    font-size: 1.5rem;
+  }
+  .main-content {
+    margin-left: 80px;
+  }
+}

@@ -1,0 +1,150 @@
+/* ==========================================================================
+   FRIENDS COMPONENT
+   ========================================================================== */
+
+.friends-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.friends-header {
+  margin-bottom: 3rem;
+}
+
+.friends-header h1 {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  margin: 0;
+  line-height: 1;
+  color: #1A1A1A;
+}
+
+.friends-header p {
+  color: #666;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+.pending-section {
+  margin-bottom: 4rem;
+}
+
+.pending-section h2, .accepted-section h2 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #F0F4FF;
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.friends-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.friend-card {
+  background: white;
+  border-radius: 20px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  border: 1px solid #E2E5E0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.friend-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 67, 214, 0.08);
+  border-color: #99B9FF;
+}
+
+.pending-card {
+  border-color: #FFD280;
+  background-color: #FFFDF8;
+}
+
+.f-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--bg-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.f-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.f-info {
+  flex: 1;
+}
+
+.f-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-family: var(--font-heading);
+  color: #1A1A1A;
+}
+
+.f-info p {
+  margin: 0.2rem 0 0 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.f-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.f-actions button {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.3s ease;
+}
+
+.accept-btn {
+  background-color: #00D68F;
+  color: white;
+}
+
+.accept-btn:hover {
+  background-color: #00B87A;
+}
+
+.reject-btn {
+  background-color: #FEE2E2;
+  color: #DC2626;
+}
+
+.reject-btn:hover {
+  background-color: #FCA5A5;
+}
+
+.empty-state {
+  background: white;
+  border-radius: 20px;
+  padding: 3rem;
+  text-align: center;
+  color: #888;
+  border: 1px dashed #CCC;
+}

@@ -10,7 +10,7 @@ export default defineConfig({
     // Así el frontend puede llamar fetch('/api/health') sin CORS
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost',
         changeOrigin: true,
       }
     }
