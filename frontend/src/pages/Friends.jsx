@@ -145,15 +145,15 @@ const Friends = () => {
                 {pending.map(req => (
                   <div key={req.friendshipId} className="friend-card pending-card">
                     <div className="f-avatar">
-                      {req.friend.avatar_url ? (
-                        <img src={req.friend.avatar_url} alt={req.friend.nombres} />
+                      {req.friend?.perfil?.avatar_url ? (
+                        <img src={req.friend.perfil.avatar_url} alt={req.friend.perfil.nombres} />
                       ) : (
-                        <span>{req.friend.nombres.charAt(0)}</span>
+                        <span>{req.friend?.perfil?.nombres?.charAt(0) || 'U'}</span>
                       )}
                     </div>
                     <div className="f-info">
-                      <h3>{req.friend.nombres} {req.friend.apellidos}</h3>
-                      <p>@{req.friend.username}</p>
+                      <h3>{req.friend?.perfil?.nombres} {req.friend?.perfil?.apellidos}</h3>
+                      <p>@{req.friend?.cuenta?.username}</p>
                     </div>
                     <div className="f-actions">
                       <button className="accept-btn" onClick={() => handleRespond(req.friendshipId, 'aceptado')}>Aceptar</button>
@@ -177,15 +177,15 @@ const Friends = () => {
                 {friends.map(f => (
                   <div key={f.friendshipId} className="friend-card">
                     <div className="f-avatar">
-                      {f.friend.avatar_url ? (
-                        <img src={f.friend.avatar_url} alt={f.friend.nombres} />
+                      {f.friend?.perfil?.avatar_url ? (
+                        <img src={f.friend.perfil.avatar_url} alt={f.friend.perfil.nombres} />
                       ) : (
-                        <span>{f.friend.nombres.charAt(0)}</span>
+                        <span>{f.friend?.perfil?.nombres?.charAt(0) || 'U'}</span>
                       )}
                     </div>
                     <div className="f-info">
-                      <h3>{f.friend.nombres} {f.friend.apellidos}</h3>
-                      <p>@{f.friend.username}</p>
+                      <h3>{f.friend?.perfil?.nombres} {f.friend?.perfil?.apellidos}</h3>
+                      <p>@{f.friend?.cuenta?.username}</p>
                     </div>
                   </div>
                 ))}
