@@ -57,11 +57,6 @@ import MyWishlists from './pages/MyWishlists';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import WishlistDetail from './pages/WishlistDetail';
-import Friends from './pages/Friends';
-import Notifications from './pages/Notifications';
-// import MyWishlists from './pages/MyWishlists';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
