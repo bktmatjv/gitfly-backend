@@ -170,7 +170,7 @@ const WishlistDetail = () => {
             {toastMessage}
           </div>
         )}
-        <div className="wishlist-detail-header">
+        <div className="detail-header">
           <Link to="/dashboard" className="back-link">← Volver al Feed</Link>
           <div className="wishlist-creator"> <span className="badge-event uppercase">{evento?.categoria || 'General'}</span></div>
         </div>
