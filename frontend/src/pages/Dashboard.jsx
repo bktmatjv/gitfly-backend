@@ -12,6 +12,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [categoria, setCategoria] = useState('Todas');
+  const categoriasList = ['Todas', 'Cumpleaños', 'Boda', 'Baby Shower', 'Graduación', 'Otro'];
   
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,23 +59,32 @@ const Dashboard = () => {
           <p className="dashboard-subtitle">Explora los deseos más recientes de la comunidad.</p>
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <select 
-            className="category-filter"
-            value={categoria} 
-            onChange={(e) => setCategoria(e.target.value)}
-            style={{ padding: '10px', borderRadius: '8px', border: 'none', background: 'var(--surface)', color: 'var(--text-primary)', outline: 'none' }}
-          >
-            <option value="Todas">Todas las categorías</option>
-            <option value="Cumpleaños">Cumpleaños</option>
-            <option value="Boda">Boda</option>
-            <option value="Baby Shower">Baby Shower</option>
-            <option value="Graduación">Graduación</option>
-            <option value="Otro">Otro</option>
-          </select>
           <button onClick={openCreateModal} className="create-btn uppercase">
             + Nuevo Deseo
           </button>
         </div>
+      </div>
+
+      <div className="category-chips-container" style={{ display: 'flex', gap: '0.8rem', overflowX: 'auto', paddingBottom: '1rem', marginBottom: '1.5rem', scrollbarWidth: 'none' }}>
+        {categoriasList.map(cat => (
+          <button 
+            key={cat}
+            onClick={() => setCategoria(cat)}
+            style={{
+              padding: '8px 16px',
+              borderRadius: '999px',
+              border: cat === categoria ? 'none' : '1px solid var(--border)',
+              backgroundColor: cat === categoria ? '#0051ff' : 'transparent',
+              color: cat === categoria ? 'white' : 'var(--text-primary)',
+              fontWeight: cat === categoria ? 'bold' : 'normal',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.2s'
+            }}
+          >
+            {cat}
+          </button>
+        ))}
       </div>
 
       {error && (

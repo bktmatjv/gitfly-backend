@@ -217,12 +217,38 @@ const MyWishlists = () => {
                 {lang === 'es' ? 'Alternar interfaz clara y oscura' : 'Toggle between light and dark interface'}
               </p>
             </div>
-            <button 
+            <div 
               onClick={toggleTheme}
-              style={{ padding: '8px 16px', borderRadius: '20px', border: '1px solid var(--border)', background: theme === 'dark' ? '#0051ff' : 'transparent', color: theme === 'dark' ? 'white' : 'var(--text-primary)', cursor: 'pointer' }}
+              style={{
+                width: '60px',
+                height: '32px',
+                background: theme === 'dark' ? '#0051ff' : '#e5e7eb',
+                borderRadius: '32px',
+                position: 'relative',
+                cursor: 'pointer',
+                transition: 'background 0.3s ease'
+              }}
             >
-              {theme === 'dark' ? (lang === 'es' ? 'Activado' : 'On') : (lang === 'es' ? 'Desactivado' : 'Off')}
-            </button>
+              <div style={{
+                position: 'absolute',
+                top: '2px',
+                left: theme === 'dark' ? '30px' : '2px',
+                width: '28px',
+                height: '28px',
+                background: 'white',
+                borderRadius: '50%',
+                transition: 'left 0.3s ease',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: theme === 'dark' ? '#0051ff' : '#9ca3af',
+                fontSize: '10px',
+                fontWeight: 'bold'
+              }}>
+                {theme === 'dark' ? 'ON' : 'OFF'}
+              </div>
+            </div>
           </div>
 
           <div className="setting-item" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
