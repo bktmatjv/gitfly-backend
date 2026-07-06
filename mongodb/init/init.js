@@ -84,11 +84,11 @@ print('🌱 [4/4] Insertando datos de prueba...');
 //  USUARIOS
 // ════════════════════════════════════
 // Hashes pre-computados con bcrypt (rounds=10). Contraseñas en la cabecera.
-const HASH_FRANCESCO = "$2b$10$Nx6is4kNrNwLuSiWSfz.KeWWa.agXTGv7pM/gn9cYX5goVCNJsWqK";
-const HASH_MATIAS = "$2b$10$Koud7IGj7DFnCqSw7akqGu/RrjpnpKCCoexWC0owoEDx.7jkYjw1i";
-const HASH_SOFIA = "$2b$10$a4TpmhJe0VQWxQ0aXo.LFO/BuJcgm.dT/aWuw3J.1YNvpwsEdEvtG";
-const HASH_DIEGO = "$2b$10$.pDJUWKO9WjUbKzN3p2OxO2N.zZ4c9jeUDq2FfMkuglSfYZLogg.q";
-const HASH_ADMIN = "$2b$10$xB5Svu8Krg3Toas3UJQ/OOEyWt4hiBwLKarIaJPhNOnKwlzHkRtJm";
+const HASH_FRANCESCO = "$2b$10$splyFGFOhiFB7u.2vZdkB.FYtBD1b.MhXJPWyOaLLgPPZoFXmfY5O";
+const HASH_MATIAS = "$2b$10$m1xCBa0CCEmSnzZORb1UtecRy14L34u5ct/YMfY9Ro4c3HJ7gIv6y";
+const HASH_SOFIA = "$2b$10$aYFMS3ADkKTOUmFy.bwM5eYSJN4C0I1sllKfvdkMF2gAs3wrXfBSy";
+const HASH_DIEGO = "$2b$10$G9ZPgAhrz6GxsuXVjW8Ra.VkuAhfj705W5PmbcsE3O/l8wLfFJO8i";
+const HASH_ADMIN = "$2b$10$cQJWkkl2xn2dZUR5dhfxhedQKezMG4cJGjNJoI3vZhHMLgoa/rQIm";
 
 db.users.insertMany([
     // ── Usuario 1: Francesco (dueño principal de wishlists) ──────────────
