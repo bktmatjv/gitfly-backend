@@ -15,6 +15,23 @@ const MyWishlists = () => {
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editData, setEditData] = useState(null);
+  
+  // Theme and Lang state
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const [lang, setLang] = useState(localStorage.getItem('lang') || 'es');
+
+  // Load preferences
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem('lang', lang);
+  }, [lang]);
+
+  const toggleTheme = () => setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  const toggleLang = () => setLang(prev => prev === 'es' ? 'en' : 'es');
 
   // Profile Edit State
   const [profileForm, setProfileForm] = useState({
@@ -176,7 +193,13 @@ const MyWishlists = () => {
               <label>Usuario (No editable)</label>
               <input type="text" value={`@${user?.cuenta?.username}`} disabled style={{ color: '#1a1a1a', padding: '10px', width: '100%', borderRadius: '8px' }} />
             </div>
-            <button type="submit" disabled={isUpdating} className="btn-primary" style={{ marginTop: '1rem' }}>
+            <button 
+              type="submit" 
+              disabled={isUpdating} 
+              style={{ marginTop: '1rem', padding: '12px 24px', backgroundColor: '#0051ff', color: 'white', borderRadius: '8px', border: 'none', fontWeight: 'bold', cursor: 'pointer', transition: 'background 0.3s' }}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#003ecc'}
+              onMouseOut={(e) => e.target.style.backgroundColor = '#0051ff'}
+            >
               {isUpdating ? 'Guardando...' : 'Guardar Cambios'}
             </button>
           </form>
@@ -184,9 +207,38 @@ const MyWishlists = () => {
       )}
 
       {activeTab === 'ajustes' && (
-        <div className="empty-state">
-          <h3>Ajustes de la cuenta</h3>
-          <p>Próximamente podrás cambiar tu contraseña y notificaciones aquí.</p>
+        <div className="settings-container" style={{ padding: '2rem', background: 'var(--surface)', borderRadius: '16px' }}>
+          <h3 style={{ marginBottom: '1.5rem' }}>{lang === 'es' ? 'Ajustes de la cuenta' : 'Account Settings'}</h3>
+          
+          <div className="setting-item" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border)' }}>
+            <div>
+              <h4 style={{ margin: 0 }}>{lang === 'es' ? 'Modo Oscuro' : 'Dark Mode'}</h4>
+              <p style={{ margin: '5px 0 0 0', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                {lang === 'es' ? 'Alternar interfaz clara y oscura' : 'Toggle between light and dark interface'}
+              </p>
+            </div>
+            <button 
+              onClick={toggleTheme}
+              style={{ padding: '8px 16px', borderRadius: '20px', border: '1px solid var(--border)', background: theme === 'dark' ? '#0051ff' : 'transparent', color: theme === 'dark' ? 'white' : 'var(--text-primary)', cursor: 'pointer' }}
+            >
+              {theme === 'dark' ? (lang === 'es' ? 'Activado' : 'On') : (lang === 'es' ? 'Desactivado' : 'Off')}
+            </button>
+          </div>
+
+          <div className="setting-item" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <h4 style={{ margin: 0 }}>{lang === 'es' ? 'Idioma' : 'Language'}</h4>
+              <p style={{ margin: '5px 0 0 0', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                {lang === 'es' ? 'Cambia el idioma de la aplicación' : 'Change the application language'}
+              </p>
+            </div>
+            <button 
+              onClick={toggleLang}
+              style={{ padding: '8px 16px', borderRadius: '20px', border: '1px solid var(--border)', background: 'transparent', color: 'var(--text-primary)', cursor: 'pointer', fontWeight: 'bold' }}
+            >
+              {lang === 'es' ? 'Español' : 'English'}
+            </button>
+          </div>
         </div>
       )}
 

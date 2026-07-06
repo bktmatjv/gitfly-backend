@@ -3,6 +3,7 @@ import AppLayout from '../components/Common/AppLayout';
 import { getFriends, respondFriendship, requestFriendship } from '../services/friendshipService';
 import { getUsers } from '../services/userService';
 import { useAuth } from '../context/AuthContext';
+import Avatar from '../components/Common/Avatar';
 import './Friends.css';
 
 const Friends = () => {
@@ -119,11 +120,7 @@ const Friends = () => {
                   {searchResults.map(u => (
                     <div key={u._id} className="friend-card">
                       <div className="f-avatar">
-                        {u.perfil?.avatar_url ? (
-                          <img src={u.perfil.avatar_url} alt={u.perfil.nombres} />
-                        ) : (
-                          <span>{u.perfil?.nombres?.charAt(0) || 'U'}</span>
-                        )}
+                        <Avatar url={u.perfil?.avatar_url} name={u.perfil?.nombres} />
                       </div>
                       <div className="f-info">
                         <h3>{u.perfil?.nombres} {u.perfil?.apellidos}</h3>
@@ -152,11 +149,7 @@ const Friends = () => {
                 {pending.map(req => (
                   <div key={req.friendshipId} className="friend-card pending-card">
                     <div className="f-avatar">
-                      {req.friend?.perfil?.avatar_url ? (
-                        <img src={req.friend.perfil.avatar_url} alt={req.friend.perfil.nombres} />
-                      ) : (
-                        <span>{req.friend?.perfil?.nombres?.charAt(0) || 'U'}</span>
-                      )}
+                      <Avatar url={req.friend?.perfil?.avatar_url} name={req.friend?.perfil?.nombres} />
                     </div>
                     <div className="f-info">
                       <h3>{req.friend?.perfil?.nombres} {req.friend?.perfil?.apellidos}</h3>
@@ -185,11 +178,7 @@ const Friends = () => {
                 {friends.map(f => (
                   <div key={f.friendshipId} className="friend-card">
                     <div className="f-avatar">
-                      {f.friend?.perfil?.avatar_url ? (
-                        <img src={f.friend.perfil.avatar_url} alt={f.friend.perfil.nombres} />
-                      ) : (
-                        <span>{f.friend?.perfil?.nombres?.charAt(0) || 'U'}</span>
-                      )}
+                      <Avatar url={f.friend?.perfil?.avatar_url} name={f.friend?.perfil?.nombres} />
                     </div>
                     <div className="f-info">
                       <h3>{f.friend?.perfil?.nombres} {f.friend?.perfil?.apellidos}</h3>

@@ -55,8 +55,16 @@ exports.getMyWishlists = async (req, res, next) => {
 // El creador_id siempre viene del JWT, nunca del body (B-02)
 exports.createWishlist = async (req, res, next) => {
   try {
+    const bodyData = { ...req.body };
+    if (!bodyData.recursos_multimedia) {
+      bodyData.recursos_multimedia = {};
+    }
+    if (!bodyData.recursos_multimedia.imagen_url) {
+      bodyData.recursos_multimedia.imagen_url = 'https://giftlystorage.blob.core.windows.net/media/default_gift.png'; // or simply a placeholder
+    }
+
     const newWishlist = await Wishlist.create({
-      ...req.body,
+      ...bodyData,
       creador_id: req.user.id  // ← Forzado desde el token JWT
     });
     res.status(201).json(newWishlist);
@@ -74,6 +82,10 @@ exports.getWishlistById = async (req, res, next) => {
       res.status(404);
       throw new Error('Wishlist no encontrada');
     }
+
+    wishlist.estadisticas.vistas = (wishlist.estadisticas.vistas || 0) + 1;
+    await wishlist.save();
+
     res.status(200).json(wishlist);
   } catch (error) {
     next(error);
