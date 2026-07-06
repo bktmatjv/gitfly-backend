@@ -171,7 +171,7 @@ const WishlistDetail = () => {
           </div>
         )}
         <div className="wishlist-detail-header">
-          <Link to="/" className="back-button">← Volver al Feed</Link>
+          <Link to="/dashboard" className="back-link">← Volver al Feed</Link>
           <div className="wishlist-creator"> <span className="badge-event uppercase">{evento?.categoria || 'General'}</span></div>
         </div>
 
@@ -191,11 +191,12 @@ const WishlistDetail = () => {
             <div className="detail-info-card">
               <h1 className="detail-title">{informacion_general?.titulo || item_regalo?.nombre}</h1>
               <div className="creator-row">
-                <Avatar 
-                  name={creatorName} 
-                  src={creador_id?.perfil?.avatar_url || ''} 
-                  size="40px" 
-                />
+                <div style={{ width: '40px', height: '40px', flexShrink: 0 }}>
+                  <Avatar 
+                    name={creatorName} 
+                    url={creador_id?.perfil?.avatar_url || ''} 
+                  />
+                </div>
                 <span>Creado por <strong>{creatorName}</strong></span>
               </div>
               
@@ -256,18 +257,26 @@ const WishlistDetail = () => {
                 {contributions.length === 0 ? (
                   <p className="empty-text">Sé el primero en aportar.</p>
                 ) : (
-                  contributions.map(c => (
-                    <div key={c._id} className="contribution-item">
-                      <Avatar 
-                        name={c.nombre_aportante || '?'} 
-                        src={c.avatar_url || ''} 
-                        size="40px" 
-                      />
-                      <div className="c-info">
-                        <strong>{c.nombre_aportante}</strong> aportó ${c.monto_aportado.toFixed(2)}
+                  contributions.map(c => {
+                    const contribName = c.usuario_id?.perfil?.nombres 
+                      ? `${c.usuario_id.perfil.nombres} ${c.usuario_id.perfil.apellidos || ''}`.trim() 
+                      : (c.usuario_id?.cuenta?.username || 'Anónimo');
+                    const contribAvatar = c.usuario_id?.perfil?.avatar_url || '';
+
+                    return (
+                      <div key={c._id} className="contribution-item">
+                        <div style={{ width: '40px', height: '40px', flexShrink: 0 }}>
+                          <Avatar 
+                            name={contribName} 
+                            url={contribAvatar} 
+                          />
+                        </div>
+                        <div className="c-info">
+                          <strong>{contribName}</strong> aportó ${c.monto_aportado.toFixed(2)}
+                        </div>
                       </div>
-                    </div>
-                  ))
+                    );
+                  })
                 )}
               </div>
             </div>
@@ -285,13 +294,14 @@ const WishlistDetail = () => {
                 ) : (
                   allComments.map((c, i) => (
                     <div key={i} className="comment-bubble">
-                      <Avatar 
-                        name={c.nombre_autor || 'Usuario'} 
-                        src={c.avatar || ''} 
-                        size="40px" 
-                      />
+                      <div style={{ width: '40px', height: '40px', flexShrink: 0 }}>
+                        <Avatar 
+                          name={c.username || 'Usuario'} 
+                          url={c.avatar || ''} 
+                        />
+                      </div>
                       <div className="comment-body">
-                        <strong>{c.nombre_autor}</strong>
+                        <strong>{c.username}</strong>
                         <p>{c.contenido_texto}</p>
                         <span className="comment-date">{new Date(c.timestamp).toLocaleString()}</span>
                       </div>
