@@ -2,12 +2,29 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { deleteWishlist } from '../../services/wishlistService';
+import { addReaction } from '../../services/interactionService';
+import Avatar from '../Common/Avatar';
 import './WishlistCard.css';
 
 const WishlistCard = ({ wishlist, onEdit, onRefresh }) => {
   const { user } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  
+  const initialLikes = wishlist?.estadisticas?.likes || 0;
+  const [localLikes, setLocalLikes] = useState(initialLikes);
+  // Ideally we would check if user liked it, but for now we'll just mock toggle
+  const [localLiked, setLocalLiked] = useState(false);
+
+  const handleLike = async () => {
+    try {
+      await addReaction({ wishlist_id: wishlist._id, tipo_reaccion: 'me_gusta' });
+      setLocalLiked(!localLiked);
+      setLocalLikes(prev => localLiked ? prev - 1 : prev + 1);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   
   const { 
     _id, 
@@ -25,7 +42,7 @@ const WishlistCard = ({ wishlist, onEdit, onRefresh }) => {
   const giftName = item_regalo?.nombre || 'Regalo sorpresa';
   const price = item_regalo?.precio_estimado || 0;
   const currency = item_regalo?.divisa || 'USD';
-  const imageUrl = recursos_multimedia?.imagen_url || 'https://via.placeholder.com/600x400?text=Regalo';
+  const imageUrl = recursos_multimedia?.imagen_url || 'https://giftlystorage.blob.core.windows.net/media/default_gift.png';
   
   // Nombres del creador (populated)
   const creatorName = creador_id?.perfil?.nombres 
@@ -53,13 +70,9 @@ const WishlistCard = ({ wishlist, onEdit, onRefresh }) => {
       {/* Post Header */}
       <div className="post-header">
         <div className="post-creator-info">
-          {avatarUrl ? (
-            <img src={avatarUrl} alt={creatorName} className="post-avatar" />
-          ) : (
-            <div className="post-avatar-placeholder">
-              {creatorName.charAt(0).toUpperCase()}
-            </div>
-          )}
+          <div style={{ width: '40px', height: '40px' }}>
+            <Avatar url={avatarUrl} name={creatorName} />
+          </div>
           <div className="post-creator-details">
             <span className="post-creator-name">{creatorName}</span>
             <span className="post-date">{eventDate} • {eventType.toUpperCase()}</span>
@@ -104,14 +117,17 @@ const WishlistCard = ({ wishlist, onEdit, onRefresh }) => {
         <p className="post-gift">🎁 {giftName}</p>
         <p className="post-desc">{description}</p>
         
-        {/* Progress Bar (Mock for now, should calculate from contributions) */}
+        {/* Progress Bar */}
         <div className="post-progress">
           <div className="progress-info">
-            <span>Recaudado: $0</span>
+            <span>Recaudado: ${wishlist?.estado_financiero?.monto_recaudado || 0}</span>
             <span>Meta: ${price}</span>
           </div>
           <div className="progress-bar-bg">
-            <div className="progress-bar-fill" style={{ width: '0%' }}></div>
+            <div 
+              className="progress-bar-fill" 
+              style={{ width: `${Math.min(100, ((wishlist?.estado_financiero?.monto_recaudado || 0) / (price || 1)) * 100)}%` }}
+            ></div>
           </div>
         </div>
       </div>
@@ -119,13 +135,16 @@ const WishlistCard = ({ wishlist, onEdit, onRefresh }) => {
       {/* Post Social Stats */}
       <div className="post-social-stats">
         <button className="social-btn tooltip" title="Vistas">
-          <span>👁️</span> {wishlist?.estadisticas?.vistas || Math.floor(Math.random()*100)}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          {wishlist?.estadisticas?.vistas || 0}
         </button>
-        <button className="social-btn tooltip" title="Comentarios">
-          <span>💬</span> {wishlist?.estadisticas?.comentarios || 0}
-        </button>
-        <button className="social-btn tooltip" title="Me gusta">
-          <span>❤️</span> {wishlist?.estadisticas?.likes || 0}
+        <Link to={`/wishlists/${_id}`} className="social-btn tooltip" title="Comentar" style={{ textDecoration: 'none' }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          {wishlist?.estadisticas?.comentarios || 0}
+        </Link>
+        <button className="social-btn tooltip" title="Me gusta" onClick={() => handleLike()}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill={localLiked ? '#ef4444' : 'none'} stroke={localLiked ? '#ef4444' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          {localLikes}
         </button>
       </div>
 

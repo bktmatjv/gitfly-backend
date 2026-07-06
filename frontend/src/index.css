@@ -1,18 +1,29 @@
 :root {
   /* Bowery Reference Colors */
   --bg-primary: #0052FF;
-  /* Electric Blue */
   --bg-secondary: #00A859;
-  /* Kelly Green */
   --bg-light: #F4F5F0;
-  /* Off-white */
-
   --text-white: #ffffff;
   --text-blue: #0052FF;
+  
+  /* System Colors */
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --surface: #ffffff;
+  --border: #e5e7eb;
 
   /* Typography */
   --font-heading: 'Anton', sans-serif;
   --font-body: 'Inter', sans-serif;
+}
+
+[data-theme='dark'] {
+  --bg-light: #111827;
+  --text-primary: #f9fafb;
+  --text-secondary: #9ca3af;
+  --surface: #1f2937;
+  --border: #374151;
+  --text-white: #e5e7eb;
 }
 
 * {

@@ -29,7 +29,7 @@ exports.createContribution = async (req, res, next) => {
         evento_origen: {
           disparador_notificacion: 'aporte',
           entidad_origen_id: contribution._id,
-          tipo_alerta: 'financiero'
+          tipo_alerta: 'nuevo_aporte'
         }
       });
     }
