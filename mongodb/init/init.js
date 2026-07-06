@@ -102,7 +102,7 @@ db.users.insertMany([
         perfil: {
             nombres: "Francesco",
             apellidos: "Meza Dagnino",
-            biografia: "Compartiendo mis tableros de deseos. 🎁",
+            biografia: "Compartiendo mis tableros de deseos. ",
             edad: 21,
             avatar_url: "https://giftlystorage.blob.core.windows.net/media/avatars/francesco.png",
             seed_tag: SEED
@@ -126,7 +126,7 @@ db.users.insertMany([
         perfil: {
             nombres: "Matías",
             apellidos: "Del Castillo Ríos",
-            biografia: "Organizando regalos grupales con estilo. 🎉",
+            biografia: "Organizando regalos grupales con estilo. ",
             edad: 22,
             avatar_url: "https://giftlystorage.blob.core.windows.net/media/avatars/matias.png",
             seed_tag: SEED
@@ -151,7 +151,7 @@ db.users.insertMany([
         perfil: {
             nombres: "Sofía",
             apellidos: "García Villanueva",
-            biografia: "Amante de los regalos creativos y personalizados ✨",
+            biografia: "Amante de los regalos creativos y personalizados ",
             avatar_url: "https://giftlystorage.blob.core.windows.net/media/avatars/sofia.png",
             seed_tag: SEED
         },

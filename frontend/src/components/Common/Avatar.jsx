@@ -15,7 +15,7 @@ const Avatar = ({ url, name, className }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: 'var(--primary)',
+          backgroundColor: 'var(--bg-primary)',
           color: 'white',
           fontWeight: 'bold',
           borderRadius: '50%',
