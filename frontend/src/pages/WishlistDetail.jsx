@@ -47,6 +47,13 @@ const WishlistDetail = () => {
     }
   };
 
+  const [toastMessage, setToastMessage] = useState('');
+  
+  const showToast = (message) => {
+    setToastMessage(message);
+    setTimeout(() => setToastMessage(''), 3000);
+  };
+
   const handleContribute = async (e) => {
     e.preventDefault();
     if (!amount || isNaN(amount) || Number(amount) <= 0) return;
@@ -58,12 +65,15 @@ const WishlistDetail = () => {
       });
       setAmount('');
       setShowContribute(false);
-      // Recargar contribuciones
+      showToast('¡Aporte realizado con éxito! 🎉');
+      // Recargar contribuciones y detalles (para barra de progreso)
+      const wlData = await getWishlistById(id);
+      setWishlist(wlData);
       const contribData = await getContributionsByWishlist(id);
       setContributions(contribData);
     } catch (err) {
       console.error("Error al aportar:", err);
-      alert('Error al procesar el aporte.');
+      showToast('❌ Error al procesar el aporte.');
     }
   };
 
@@ -154,11 +164,14 @@ const WishlistDetail = () => {
   return (
     <AppLayout>
       <div className="wishlist-detail-container">
-        
-        {/* CABECERA Y BOTÓN VOLVER */}
-        <div className="detail-header">
-          <Link to="/dashboard" className="back-link">← Volver al Feed</Link>
-          <span className="badge-event uppercase">{evento?.categoria || 'General'}</span>
+        {toastMessage && (
+          <div className="toast-notification animate-pulse">
+            {toastMessage}
+          </div>
+        )}
+        <div className="wishlist-detail-header">
+          <Link to="/" className="back-button">← Volver al Feed</Link>
+          <div className="wishlist-creator"> <span className="badge-event uppercase">{evento?.categoria || 'General'}</span></div>
         </div>
 
         {/* CONTENIDO PRINCIPAL */}

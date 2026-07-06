@@ -11,6 +11,7 @@ const Dashboard = () => {
   const [wishlists, setWishlists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [categoria, setCategoria] = useState('Todas');
   
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +20,7 @@ const Dashboard = () => {
   const fetchFeed = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await getWishlists(1, 20);
+      const response = await getWishlists(1, 20, categoria);
       setWishlists(response.data);
     } catch (err) {
       setError('No pudimos cargar el feed. Intenta recargar la página.');
@@ -27,7 +28,7 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [categoria]);
 
   useEffect(() => {
     fetchFeed();
@@ -56,9 +57,24 @@ const Dashboard = () => {
           </h1>
           <p className="dashboard-subtitle">Explora los deseos más recientes de la comunidad.</p>
         </div>
-        <button onClick={openCreateModal} className="create-btn uppercase">
-          + Nuevo Deseo
-        </button>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <select 
+            className="category-filter"
+            value={categoria} 
+            onChange={(e) => setCategoria(e.target.value)}
+            style={{ padding: '10px', borderRadius: '8px', border: 'none', background: 'var(--surface)', color: 'var(--text-primary)', outline: 'none' }}
+          >
+            <option value="Todas">Todas las categorías</option>
+            <option value="Cumpleaños">Cumpleaños</option>
+            <option value="Boda">Boda</option>
+            <option value="Baby Shower">Baby Shower</option>
+            <option value="Graduación">Graduación</option>
+            <option value="Otro">Otro</option>
+          </select>
+          <button onClick={openCreateModal} className="create-btn uppercase">
+            + Nuevo Deseo
+          </button>
+        </div>
       </div>
 
       {error && (

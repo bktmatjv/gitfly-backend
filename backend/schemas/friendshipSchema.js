@@ -12,6 +12,7 @@ const createFriendshipSchema = z.object({
 });
 
 const updateFriendshipSchema = z.object({
+  estado_vinculo: z.enum(['pendiente', 'aceptado', 'rechazado']).optional(),
   auditoria_relacion: z.object({
     estado_vinculo: z.enum(['pendiente', 'aceptado', 'rechazado'])
   }).optional(),

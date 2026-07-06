@@ -59,7 +59,7 @@ exports.respondFriendship = async (req, res, next) => {
     }
 
     // Verificar que quien responde es el receptor (B-09)
-    if (friendship.receptor_id.toString() !== req.user.id) {
+    if (String(friendship.receptor_id) !== String(req.user.id)) {
       res.status(403);
       throw new Error('No autorizado. Solo el receptor puede responder esta solicitud.');
     }

@@ -8,5 +8,6 @@ const { registerSchema, loginSchema } = require('../schemas/authSchema');
 router.post('/register', validateSchema(registerSchema), register);
 router.post('/login', validateSchema(loginSchema), login);
 router.get('/me', protect, getMe);
+router.put('/me', protect, require('../controllers/authController').updateMe);
 
 module.exports = router;

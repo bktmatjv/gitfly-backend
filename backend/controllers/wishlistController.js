@@ -8,13 +8,18 @@ exports.getWishlists = async (req, res, next) => {
     const limit = parseInt(req.query.limit, 10) || 10;
     const skip  = (page - 1) * limit;
 
-    const wishlists = await Wishlist.find()
-      .populate('creador_id', 'cuenta.username perfil.nombres perfil.apellidos')
+    const filter = {};
+    if (req.query.categoria && req.query.categoria !== 'Todas') {
+      filter['evento.categoria'] = req.query.categoria;
+    }
+
+    const wishlists = await Wishlist.find(filter)
+      .populate('creador_id', 'cuenta.username perfil.nombres perfil.apellidos perfil.avatar_url')
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 });
 
-    const total = await Wishlist.countDocuments();
+    const total = await Wishlist.countDocuments(filter);
 
     res.status(200).json({ total, page, totalPages: Math.ceil(total / limit), data: wishlists });
   } catch (error) {
@@ -33,6 +38,7 @@ exports.getMyWishlists = async (req, res, next) => {
     const filter = { creador_id: req.user.id };
 
     const wishlists = await Wishlist.find(filter)
+      .populate('creador_id', 'cuenta.username perfil.nombres perfil.apellidos perfil.avatar_url')
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 });
