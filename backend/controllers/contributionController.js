@@ -13,16 +13,28 @@ exports.createContribution = async (req, res, next) => {
       throw new Error('Se requieren wishlist_id y monto_aportado.');
     }
 
+    const wishlist = await Wishlist.findById(wishlist_id);
+    if (!wishlist) {
+      res.status(404);
+      throw new Error('Wishlist no encontrada.');
+    }
+
+    const recaudadoActual = wishlist.estado_financiero?.monto_recaudado || 0;
+    const meta = wishlist.item_regalo?.precio_estimado || 0;
+
+    if (recaudadoActual + Number(monto_aportado) > meta) {
+      res.status(400);
+      throw new Error(`El aporte excede la meta. Solo puedes aportar hasta $${meta - recaudadoActual}.`);
+    }
+
     const contribution = await Contribution.create({
       ...req.body,
       usuario_id: req.user.id,  // ← Siempre del JWT
     });
 
-    const wishlist = await Wishlist.findById(wishlist_id);
-    if (wishlist) {
-      if (!wishlist.estado_financiero) wishlist.estado_financiero = {};
-      wishlist.estado_financiero.monto_recaudado = (wishlist.estado_financiero.monto_recaudado || 0) + Number(monto_aportado);
-      await wishlist.save();
+    if (!wishlist.estado_financiero) wishlist.estado_financiero = {};
+    wishlist.estado_financiero.monto_recaudado = recaudadoActual + Number(monto_aportado);
+    await wishlist.save();
 
       if (wishlist.creador_id.toString() !== req.user.id) {
         await Notification.create({
