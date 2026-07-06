@@ -1,7 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0051ff" width="48" height="48">
-  <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10z" fill="#f0f4ff"/>
-  <path d="M17 9.5a2.5 2.5 0 0 0-3.8-2.1L12 8l-1.2-1.6a2.5 2.5 0 0 0-3.8 2.1l-.3 1.5H5v3h14v-3h-1.7l-.3-1.5z" fill="#0051ff"/>
-  <path d="M6 13h12v5a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-5z" fill="#0051ff"/>
-  <rect x="11" y="9" width="2" height="10" fill="#ffffff"/>
-  <rect x="5" y="11" width="14" height="2" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4077FF"/>
+      <stop offset="100%" stop-color="#003ECC"/>
+    </linearGradient>
+    <linearGradient id="lidGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6B95FF"/>
+      <stop offset="100%" stop-color="#1A5FFF"/>
+    </linearGradient>
+    <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F0F4FF"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <!-- Background Circle for app icon feel -->
+  <circle cx="50" cy="50" r="48" fill="#F0F4FF" />
+  
+  <!-- Box Base -->
+  <rect x="25" y="55" width="50" height="30" rx="3" fill="url(#boxGrad)" filter="url(#shadow)"/>
+  
+  <!-- Box Lid -->
+  <rect x="20" y="40" width="60" height="15" rx="3" fill="url(#lidGrad)" filter="url(#shadow)"/>
+  
+  <!-- Vertical Ribbon -->
+  <rect x="44" y="40" width="12" height="45" fill="url(#ribbonGrad)"/>
+  
+  <!-- Bow -->
+  <path d="M50 40 C35 25, 20 40, 48 40 Z" fill="url(#boxGrad)"/>
+  <path d="M50 40 C65 25, 80 40, 52 40 Z" fill="url(#boxGrad)"/>
+  
+  <!-- Bow Knots / Details -->
+  <circle cx="50" cy="40" r="4" fill="#FFFFFF"/>
 </svg>
