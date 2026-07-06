@@ -19,8 +19,13 @@ exports.createContribution = async (req, res, next) => {
     });
 
     const wishlist = await Wishlist.findById(wishlist_id);
-    if (wishlist && wishlist.creador_id.toString() !== req.user.id) {
-      await Notification.create({
+    if (wishlist) {
+      if (!wishlist.estado_financiero) wishlist.estado_financiero = {};
+      wishlist.estado_financiero.monto_recaudado = (wishlist.estado_financiero.monto_recaudado || 0) + Number(monto_aportado);
+      await wishlist.save();
+
+      if (wishlist.creador_id.toString() !== req.user.id) {
+        await Notification.create({
         usuario_destino_id: wishlist.creador_id,
         contenido_notificacion: {
           mensaje_corto: `Alguien ha aportado $${monto_aportado} a tu lista "${wishlist.evento.titulo}"`,

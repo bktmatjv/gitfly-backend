@@ -10,7 +10,7 @@ exports.getWishlists = async (req, res, next) => {
 
     const filter = {};
     if (req.query.categoria && req.query.categoria !== 'Todas') {
-      filter['evento.categoria'] = req.query.categoria;
+      filter['evento.categoria'] = { $regex: new RegExp(`^${req.query.categoria}$`, 'i') };
     }
 
     const wishlists = await Wishlist.find(filter)

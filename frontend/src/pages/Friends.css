@@ -16,11 +16,11 @@
   font-size: 3rem;
   margin: 0;
   line-height: 1;
-  color: #1A1A1A;
+  color: var(--text-primary);
 }
 
 .friends-header p {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 1.1rem;
   margin-top: 0.5rem;
 }
@@ -32,9 +32,9 @@
 .search-section h2, .pending-section h2, .accepted-section h2 {
   font-family: var(--font-heading);
   font-size: 1.8rem;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid #F0F4FF;
+  border-bottom: 2px solid var(--border);
   padding-bottom: 0.5rem;
   display: inline-block;
 }
@@ -49,11 +49,11 @@
 .search-input {
   flex: 1;
   padding: 1rem 1.5rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   border-radius: 30px;
   font-size: 1rem;
-  color: #1A1A1A;
-  background-color: #fff;
+  color: var(--text-primary);
+  background-color: var(--surface);
   outline: none;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
@@ -87,9 +87,9 @@
 .search-results-grid {
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background-color: #f8f9fa;
+  background-color: var(--surface);
   border-radius: 20px;
-  border: 1px dashed #ddd;
+  border: 1px dashed var(--border);
 }
 
 .add-friend-btn {
@@ -116,9 +116,9 @@
 .pending-section h2, .accepted-section h2 {
   font-family: var(--font-heading);
   font-size: 1.8rem;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid #F0F4FF;
+  border-bottom: 2px solid var(--border);
   padding-bottom: 0.5rem;
   display: inline-block;
 }
@@ -130,15 +130,15 @@
 }
 
 .friend-card {
-  background: white;
+  background: var(--surface);
   border-radius: 20px;
   padding: 1.5rem;
   display: flex;
   align-items: center;
   gap: 1.2rem;
   box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-  border: 1px solid #E2E5E0;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .friend-card:hover {
@@ -149,7 +149,7 @@
 
 .pending-card {
   border-color: #FFD280;
-  background-color: #FFFDF8;
+  background-color: var(--surface);
 }
 
 .f-avatar {
@@ -181,13 +181,13 @@
   margin: 0;
   font-size: 1.1rem;
   font-family: var(--font-heading);
-  color: #1A1A1A;
+  color: var(--text-primary);
 }
 
 .f-info p {
   margin: 0.2rem 0 0 0;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .f-actions {
