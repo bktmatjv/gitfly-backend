@@ -8,6 +8,9 @@ const WishlistSchema = new mongoose.Schema({
     permite_financiamiento: { type: Boolean, default: true },
     ultima_modificacion: { type: Date, default: Date.now }
   },
+  estado_financiero: {
+    monto_recaudado: { type: Number, default: 0 }
+  },
   evento: {
     categoria: { type: String },
     descripcion: { type: String },
