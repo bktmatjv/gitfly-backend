@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { getMyWishlists } from '../services/wishlistService';
 import WishlistCard from '../components/Dashboard/WishlistCard';
 import WishlistFormModal from '../components/Dashboard/WishlistFormModal';
+import apiClient from '../services/apiClient';
 import './Dashboard.css'; // Reusing dashboard styles
 
 const MyWishlists = () => {
@@ -15,7 +16,35 @@ const MyWishlists = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editData, setEditData] = useState(null);
 
+  // Profile Edit State
+  const [profileForm, setProfileForm] = useState({
+    nombres: user?.perfil?.nombres || '',
+    apellidos: user?.perfil?.apellidos || '',
+    avatar_url: user?.perfil?.avatar_url || ''
+  });
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
   const [activeTab, setActiveTab] = useState('publicaciones');
+
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(''), 3000);
+  };
+
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    setIsUpdating(true);
+    try {
+      await apiClient.put('/auth/me', profileForm);
+      showToast('¡Perfil actualizado con éxito! 🎉');
+    } catch (err) {
+      console.error(err);
+      showToast('❌ Error al actualizar el perfil.');
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   const fetchFeed = useCallback(async () => {
     setLoading(true);
@@ -109,12 +138,48 @@ const MyWishlists = () => {
       )}
 
       {activeTab === 'datos' && (
-        <div className="empty-state" style={{ textAlign: 'left', padding: '2rem', background: 'rgba(255,255,255,0.03)', borderRadius: '16px' }}>
+        <div className="profile-edit-container">
           <h3>Información Personal</h3>
-          <p><strong>Nombres:</strong> {user?.perfil?.nombres}</p>
-          <p><strong>Apellidos:</strong> {user?.perfil?.apellidos}</p>
-          <p><strong>Usuario:</strong> @{user?.cuenta?.username}</p>
-          <p><strong>Email:</strong> {user?.cuenta?.email}</p>
+          {toastMessage && (
+            <div className="toast-notification animate-pulse">{toastMessage}</div>
+          )}
+          <form className="profile-edit-form" onSubmit={handleUpdateProfile}>
+            <div className="form-group">
+              <label>URL Foto de Perfil (Avatar)</label>
+              <input 
+                type="text" 
+                value={profileForm.avatar_url}
+                onChange={(e) => setProfileForm({...profileForm, avatar_url: e.target.value})}
+                placeholder="https://..."
+                style={{ color: '#1a1a1a', padding: '10px', width: '100%', borderRadius: '8px' }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Nombres</label>
+              <input 
+                type="text" 
+                value={profileForm.nombres}
+                onChange={(e) => setProfileForm({...profileForm, nombres: e.target.value})}
+                style={{ color: '#1a1a1a', padding: '10px', width: '100%', borderRadius: '8px' }}
+              />
+            </div>
+            <div className="form-group">
+              <label>Apellidos</label>
+              <input 
+                type="text" 
+                value={profileForm.apellidos}
+                onChange={(e) => setProfileForm({...profileForm, apellidos: e.target.value})}
+                style={{ color: '#1a1a1a', padding: '10px', width: '100%', borderRadius: '8px' }}
+              />
+            </div>
+            <div className="form-group" style={{ opacity: 0.6 }}>
+              <label>Usuario (No editable)</label>
+              <input type="text" value={`@${user?.cuenta?.username}`} disabled style={{ color: '#1a1a1a', padding: '10px', width: '100%', borderRadius: '8px' }} />
+            </div>
+            <button type="submit" disabled={isUpdating} className="btn-primary" style={{ marginTop: '1rem' }}>
+              {isUpdating ? 'Guardando...' : 'Guardar Cambios'}
+            </button>
+          </form>
         </div>
       )}
 

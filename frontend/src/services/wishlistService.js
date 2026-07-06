@@ -3,8 +3,8 @@ import apiClient from './apiClient';
 /**
  * Obtiene el feed público de wishlists (paginado)
  */
-export const getWishlists = async (page = 1, limit = 10) => {
-  const response = await apiClient.get(`/wishlists?page=${page}&limit=${limit}`);
+export const getWishlists = async (page = 1, limit = 10, categoria = 'Todas') => {
+  const response = await apiClient.get(`/wishlists?page=${page}&limit=${limit}&categoria=${categoria}`);
   return response.data;
 };
 

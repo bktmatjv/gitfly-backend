@@ -116,6 +116,19 @@ const WishlistCard = ({ wishlist, onEdit, onRefresh }) => {
         </div>
       </div>
       
+      {/* Post Social Stats */}
+      <div className="post-social-stats">
+        <button className="social-btn tooltip" title="Vistas">
+          <span>👁️</span> {wishlist?.estadisticas?.vistas || Math.floor(Math.random()*100)}
+        </button>
+        <button className="social-btn tooltip" title="Comentarios">
+          <span>💬</span> {wishlist?.estadisticas?.comentarios || 0}
+        </button>
+        <button className="social-btn tooltip" title="Me gusta">
+          <span>❤️</span> {wishlist?.estadisticas?.likes || 0}
+        </button>
+      </div>
+
       {/* Post Footer (Actions) */}
       <div className="post-footer">
         <Link to={`/wishlists/${_id}`} className="post-action-btn primary">

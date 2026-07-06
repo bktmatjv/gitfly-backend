@@ -26,6 +26,11 @@ const WishlistSchema = new mongoose.Schema({
     imagen_url: { type: String },
     video_review_url: { type: String }
   },
+  estadisticas: {
+    vistas: { type: Number, default: 0 },
+    comentarios: { type: Number, default: 0 },
+    likes: { type: Number, default: 0 }
+  },
   seed_tag: { type: String }
 }, { timestamps: true });
 

@@ -1,4 +1,6 @@
 const Contribution = require('../models/Contribution');
+const Wishlist = require('../models/Wishlist');
+const Notification = require('../models/Notification');
 
 // ─── POST /api/contributions ──────────────────────────────────────────
 // El usuario_id siempre viene del JWT (B-07, B-08)
@@ -15,6 +17,22 @@ exports.createContribution = async (req, res, next) => {
       ...req.body,
       usuario_id: req.user.id,  // ← Siempre del JWT
     });
+
+    const wishlist = await Wishlist.findById(wishlist_id);
+    if (wishlist && wishlist.creador_id.toString() !== req.user.id) {
+      await Notification.create({
+        usuario_destino_id: wishlist.creador_id,
+        contenido_notificacion: {
+          mensaje_corto: `Alguien ha aportado $${monto_aportado} a tu lista "${wishlist.evento.titulo}"`,
+          accion_click: `/wishlist/${wishlist_id}`
+        },
+        evento_origen: {
+          disparador_notificacion: 'aporte',
+          entidad_origen_id: contribution._id,
+          tipo_alerta: 'financiero'
+        }
+      });
+    }
 
     res.status(201).json({ message: 'Aporte registrado exitosamente', data: contribution });
   } catch (error) {

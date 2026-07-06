@@ -101,3 +101,33 @@ exports.getMe = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.updateMe = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      res.status(404);
+      throw new Error('Usuario no encontrado');
+    }
+
+    const { nombres, apellidos, avatar_url, biografia } = req.body;
+    
+    if (nombres) user.perfil.nombres = nombres;
+    if (apellidos) user.perfil.apellidos = apellidos;
+    if (avatar_url) user.perfil.avatar_url = avatar_url;
+    if (biografia) user.perfil.biografia = biografia;
+
+    await user.save();
+
+    res.status(200).json({
+      message: 'Perfil actualizado exitosamente',
+      user: {
+        id: user._id,
+        cuenta: user.cuenta,
+        perfil: user.perfil
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
