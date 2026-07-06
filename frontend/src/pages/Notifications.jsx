@@ -85,7 +85,7 @@ const Notifications = () => {
                         {new Date(n.estado_lectura?.fecha_emision).toLocaleString()}
                       </span>
                       {n.contenido_notificacion?.accion_click && (
-                        <Link to={n.contenido_notificacion.accion_click.replace('/app', '')} className="notif-link">
+                        <Link to={n.contenido_notificacion.accion_click.replace('/app', '').replace('/wishlist/', '/wishlists/')} className="notif-link">
                           Ver detalles
                         </Link>
                       )}

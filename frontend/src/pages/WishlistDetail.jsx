@@ -5,6 +5,7 @@ import { getWishlistById } from '../services/wishlistService';
 import { getContributionsByWishlist, createContribution } from '../services/contributionService';
 import { getInteractionsByWishlist, addComment, addReaction } from '../services/interactionService';
 import { useAuth } from '../context/AuthContext';
+import Avatar from '../components/Common/Avatar';
 import './WishlistDetail.css';
 
 const WishlistDetail = () => {
@@ -190,13 +191,11 @@ const WishlistDetail = () => {
             <div className="detail-info-card">
               <h1 className="detail-title">{informacion_general?.titulo || item_regalo?.nombre}</h1>
               <div className="creator-row">
-                <div className="avatar-mini">
-                  {creador_id?.perfil?.avatar_url ? (
-                    <img src={creador_id.perfil.avatar_url} alt="Creator" />
-                  ) : (
-                    <span>{creatorName.charAt(0).toUpperCase()}</span>
-                  )}
-                </div>
+                <Avatar 
+                  name={creatorName} 
+                  src={creador_id?.perfil?.avatar_url || ''} 
+                  size="40px" 
+                />
                 <span>Creado por <strong>{creatorName}</strong></span>
               </div>
               
@@ -259,7 +258,11 @@ const WishlistDetail = () => {
                 ) : (
                   contributions.map(c => (
                     <div key={c._id} className="contribution-item">
-                      <div className="c-avatar">{c.nombre_aportante ? c.nombre_aportante.charAt(0) : '?'}</div>
+                      <Avatar 
+                        name={c.nombre_aportante || '?'} 
+                        src={c.avatar_url || ''} 
+                        size="40px" 
+                      />
                       <div className="c-info">
                         <strong>{c.nombre_aportante}</strong> aportó ${c.monto_aportado.toFixed(2)}
                       </div>
@@ -282,9 +285,11 @@ const WishlistDetail = () => {
                 ) : (
                   allComments.map((c, i) => (
                     <div key={i} className="comment-bubble">
-                      <div className="comment-avatar">
-                        {c.avatar ? <img src={c.avatar} alt="user"/> : <span>{c.nombre_autor.charAt(0)}</span>}
-                      </div>
+                      <Avatar 
+                        name={c.nombre_autor || 'Usuario'} 
+                        src={c.avatar || ''} 
+                        size="40px" 
+                      />
                       <div className="comment-body">
                         <strong>{c.nombre_autor}</strong>
                         <p>{c.contenido_texto}</p>
